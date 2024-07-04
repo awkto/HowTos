@@ -4,6 +4,8 @@
 [Pihole]([url](https://pi-hole.net/)) is a DNS filtering and management tool. It can be deployed very easily on a Raspberry Pi, but it can also be used on any standard linux machine (x86 or x64 as well)
 Pihole gets deployed without any automated SSL certificate signing. If you deploy pihole on your internal network, getting a certificate is very easy with certbot, as long as you have a public domain to certify with.
 
+If you want to install pihole on an x86 server, use [this single line script from here]([url](https://docs.pi-hole.net/main/basic-install/))
+
 ## How can you use certbot 
 Certbot can be used to fetch SSL certificates, by confirming ownership of the domain. Private IPs will work fine here, but the domain needs to be public. 
 In fact a public DNS record pointing to your host IP is not required at all. The only requirement for verifying domain ownership is creation of a specific TXT record. This is known as the manual method, and requires a specific command.
