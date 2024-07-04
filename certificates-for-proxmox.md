@@ -52,7 +52,7 @@ These files will be updated when the certificate renews.
 - Upload fullchain.pem to the _Certificate Chain_ box
 
 8. Screenshot showing proxmox web interface, certificates page
-![image](promoxcerts.png)
+![image](proxmoxcerts.png)
 
 
 9. Proxmox will restart the APi service automatically
