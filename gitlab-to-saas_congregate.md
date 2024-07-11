@@ -55,6 +55,9 @@ docker rm -v -f $(docker ps -qa)
 
 ## Config File Setup
 1. Grab a congregate.conf template file [here](https://gitlab.com/gitlab-org/professional-services-automation/tools/migration/congregate/-/blob/master/congregate.conf.template)
+   ```
+   wget --content-disposition https://gitlab.com/gitlab-org/professional-services-automation/tools/migration/congregate/-/raw/master/congregate.conf.template?inline=false
+   ```
 2. Update the following fields in the conf file
 
 **Destination section**
@@ -99,8 +102,13 @@ docker cp congregate.conf congregate-bg:/opt/congregate/data/congregate.conf
 ## Congregate List to pull and stage projects
 ...
 
-## Update waves csv file, use template [from here](https://gitlab.com/gitlab-org/professional-services-automation/tools/migration/congregate/-/blob/master/templates/stage-wave-template.csv)
-...
+## Update waves csv file, use template 
+Download Page[here](https://gitlab.com/gitlab-org/professional-services-automation/tools/migration/congregate/-/blob/master/templates/stage-wave-template.csv)
+
+Download with
+```
+wget --content-disposition https://gitlab.com/gitlab-org/professional-services-automation/tools/migration/congregate/-/raw/master/templates/stage-wave-template.csv?inline=false
+```
 
 
 ### Stage Projects
