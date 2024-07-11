@@ -10,14 +10,19 @@ This is a start to end instruction set for using Congregate to migrate from a se
 ```
 docker pull \
 registry.gitlab.com/gitlab-org/professional-services-automation/tools/migration/congregate:latest-debian
-``` 
-3. Create a shell script to _Start_ your congregate container instance
+```
+3. Grab the ID of the image with
+```
+docker image ls
+```
+5. Create a shell script to _Start_ your congregate container instance
 
 ```
 #!/bin/bash
 docker run -p 8000:8000 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/etc/hosts \
---name congregate-bg -d -it 1545c8faa1ac  /bin/bash
+--name congregate-bg -d -it [image-ID] /bin/bash
 ```
+_Note : Replace the image ID with your own image ID from previous command_
 
 4. Create another shell script to _Resume_ or log in to the congregate container
 
