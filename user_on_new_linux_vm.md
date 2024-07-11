@@ -12,6 +12,8 @@ cp ~/.ssh/authorized_keys /home/[user]/.ssh/
 chown [user]:[user] /home/[user]/.ssh
 chown [user]:[user] /home/[user]/.ssh/authorized_keys
 usermod -aG sudo [user]
+passwd [user]
+visudo
 ```
 
 
@@ -23,4 +25,6 @@ cp ~/.ssh/authorized_keys /home/[user]/.ssh/
 chown [user]:[user] /home/[user]/.ssh
 chown [user]:[user] /home/[user]/.ssh/authorized_keys
 usermod -aG wheel [user]
+passwd [user]
+visudo
 ```
