@@ -12,7 +12,7 @@ This is a result of broken key trust on DigitalOcean's AlmaLinux images. And thi
 Alternately, in fewer commands 
 ```
 yum install wget
-sudo wget https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux -o /etc/pki/rpk-gpg/
+sudo wget https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux -o /etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux
 ```
 
 ## Setup New User
