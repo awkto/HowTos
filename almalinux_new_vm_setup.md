@@ -13,6 +13,7 @@ Alternately, in fewer commands
 ```
 yum install wget
 sudo wget https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux -o /etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux
+sudo wget https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux; sudo mv RPM-GPG-KEY-AlmaLinux /etc/pki/rpm-gpg/
 ```
 
 ## Setup New User
