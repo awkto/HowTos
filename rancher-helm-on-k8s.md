@@ -16,7 +16,11 @@ sudo apt-get update
 sudo apt-get install helm
 ```
 3. Place kubeconf to ~/.kube/config or repoint env var $KUBECONFIG
-4. Add Rancher helm repos stable and latest
+4. Create namespace for rancher
+```
+kubectl create namespace cattle-system
+```
+5. Add Rancher helm repos stable and latest
 ```
 helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
