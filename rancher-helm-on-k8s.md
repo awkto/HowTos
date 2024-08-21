@@ -14,9 +14,15 @@ sudo apt-get update
 sudo apt-get install helm
 ```
 3. Place kubeconf to ~/.kube/config or repoint env var $KUBECONFIG
-4. Install Rancher helm chart ([source](https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster))
+4. Add Rancher helm repos stable and latest
 ```
-helm install rancher rancher-stable/rancher \
+helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
+```
+
+5. Install Rancher helm chart ([source](https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster))
+```
+helm install rancher rancher-latest/rancher \
   --namespace cattle-system \
   --set hostname=rancher.my.org \
   --set bootstrapPassword=admin \
