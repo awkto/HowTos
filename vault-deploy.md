@@ -49,7 +49,7 @@ sudo apt update && sudo apt install vault
 # Next create Vault config
 Vault is now installed but not running. Lets configure and start it
 
-## Configure and Start Vault
+## 5. Configure and Start Vault
 - Create config.hcl with this template
 ```
 storage "raft" {
@@ -58,17 +58,17 @@ storage "raft" {
 }
 
 listener "tcp" {
-  address     = "[ADD IP ADDRESS]:8200"
-  tls_disable = "true"
-  tls_cert_file = "/etc/letsencrypt/live/example.com/fullchain.pem"
-  tls_key_file = "/etc/letsencrypt/live/example.com/privkey.pem"
+  address     = "[ADD FQDN]:8200"
+  tls_disable = "false"
+  tls_cert_file = "/home/altanc/wildcard-ssl-keypair/fullchain.pem"
+  tls_key_file = "/home/altanc/wildcard-ssl-keypair/privkey.pem"
 }
 
-api_addr = "http://127.0.0.1:8200"
-cluster_addr = "https://127.0.0.1:8201"
+api_addr = "https://[ADD FQDN]:8200"
+cluster_addr = "https://[ADD FQDN]:8201"
 ui = true
 ```
-- Update the paths to the cert files and Update the vault server IP Address
+- Update the paths to the cert files and Update the vault FQDN in each URL
 - Create the data directory specified in the hcl
 ```
 sudo mkdir -p ./vault/data
@@ -79,12 +79,60 @@ vault server -config=config.hcl
 ```
 - Set environment var for VAULT address
 ```
-export VAULT_ADDR='http://[ADD IP HERE]:8200'
+export VAULT_ADDR='https://[ADD FQDN HERE]:8200'
 ```
 
-## Unseal Vault
-Vault is now running but sealed. Lets unseal it
+## 6. Initialize and Unseal Vault
+Vault is now running 
+
+- Initialize vault with
+```
+vault operator init -key-shares=1 -key-threshold=1
+```
+- Copy the Unseal keys and save them in a secure separate place
 - Unseal vault with
 ```
-vault unseal
+vault operator unseal
 ```
+- Enter one of the unseal keys
+
+## 7. Add vault to systemd 
+Vault is still being run manually. Lets make it a service / systemd unit
+
+- Create a file here `/etc/systemd/system/vault.service`
+- Paste this template in the file
+```
+[Unit]
+Description="HashiCorp Vault - A tool for managing secrets" Documentation=https://www.vaultproject.io/docs/
+Requires=network-online.target
+After=network-online.target ConditionFileNotEmpty=/etc/vault.d/vault.hcl StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Service]
+User=vault
+Group=vault
+ProtectSystem=full
+ProtectHome=read-only
+PrivateTmp=yes
+PrivateDevices=yes
+SecureBits=keep-caps
+AmbientCapabilities=CAP_IPC_LOCK
+Capabilities=CAP_IPC_LOCK+ep
+CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
+NoNewPrivileges=yes
+ExecStart=/usr/local/bin/vault server -config=/etc/vault.d/vault.hcl ExecReload=/bin/kill --signal HUP $MAINPID 
+KillMode=process 
+KillSignal=SIGINT 
+Restart=on-failure 
+RestartSec=5
+TimeoutStopSec=30
+StartLimitInterval=60
+StartLimitIntervalSec=60
+StartLimitBurst=3
+LimitNOFILE=65536
+LimitMEMLOCK=infinity
+
+[Install]
+WantedBy=multi-user.target
+```
+- Save it
