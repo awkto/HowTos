@@ -28,8 +28,8 @@ Key is saved at:         /etc/letsencrypt/live/example.com/privkey.pem
 ```
 docker run -d --restart=unless-stopped \
   -p 80:80 -p 443:443 \
-  -v /<CERT_DIRECTORY>/<FULL_CHAIN.pem>:/etc/rancher/ssl/cert.pem \
-  -v /<CERT_DIRECTORY>/<PRIVATE_KEY.pem>:/etc/rancher/ssl/key.pem \
+  -v /etc/letsencrypt/live/example.ca/fullchain.pem:/etc/rancher/ssl/cert.pem \
+  -v /etc/letsencrypt/live/example.ca/privkey.pem:/etc/rancher/ssl/key.pem \
   --privileged \
   rancher/rancher:latest \
   --no-cacerts
