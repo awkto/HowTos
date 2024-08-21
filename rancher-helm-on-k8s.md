@@ -4,6 +4,8 @@ This assumes Ubuntu OS
 1. Install **kubectl** binary ([source](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/))
 ```
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
 ```
 2. Install **helm** binary ([source](https://helm.sh/docs/intro/install/))
 ```
@@ -26,8 +28,7 @@ helm install rancher rancher-latest/rancher \
   --namespace cattle-system \
   --set hostname=rancher.my.org \
   --set bootstrapPassword=admin \
-  --set ingress.tls.source=secret \
-  --set privateCA=true
+  --set ingress.tls.source=secret
 ```
 
 6. Add certs
