@@ -58,7 +58,7 @@ storage "raft" {
 }
 
 listener "tcp" {
-  address     = "127.0.0.1:8200"
+  address     = "[ADD IP ADDRESS]:8200"
   tls_disable = "true"
   tls_cert_file = "/etc/letsencrypt/live/example.com/fullchain.pem"
   tls_key_file = "/etc/letsencrypt/live/example.com/privkey.pem"
@@ -68,6 +68,7 @@ api_addr = "http://127.0.0.1:8200"
 cluster_addr = "https://127.0.0.1:8201"
 ui = true
 ```
+- Update the paths to the cert files and Update the vault server IP Address
 - Create the data directory specified in the hcl
 ```
 sudo mkdir -p ./vault/data
@@ -75,4 +76,15 @@ sudo mkdir -p ./vault/data
 - Start vault with 
 ```
 vault server -config=config.hcl
+```
+- Set environment var for VAULT address
+```
+export VAULT_ADDR='http://[ADD IP HERE]:8200'
+```
+
+## Unseal Vault
+Vault is now running but sealed. Lets unseal it
+- Unseal vault with
+```
+vault unseal
 ```
