@@ -29,3 +29,10 @@ helm install rancher rancher-latest/rancher \
   --set ingress.tls.source=secret \
   --set privateCA=true
 ```
+
+6. Add certs
+```
+kubectl -n cattle-system create secret tls tls-rancher-ingress \
+  --cert=fullchain.pem \
+  --key=privkey.pem
+```
