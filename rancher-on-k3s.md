@@ -30,7 +30,7 @@ helm install rancher rancher-latest/rancher \
   --set hostname=rancher.my.org \
   --set bootstrapPassword=admin \
   --set ingress.tls.source=secret
-  -- [TODO ADD CA THING]
+  --set privateCA=true
 ```
 
 6. Add Secret
