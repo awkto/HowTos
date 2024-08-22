@@ -3,7 +3,7 @@ This assumes Ubuntu OS with helm and kubectl already installed
 
 1. Install microk8s
 ```
-sudo snap install microk8s
+sudo snap install microk8s --classic
 ```
 
 2. Grab kube conf from microk8s
@@ -30,7 +30,7 @@ helm install rancher rancher-latest/rancher \
   --set hostname=rancher.my.org \
   --set bootstrapPassword=admin \
   --set ingress.tls.source=secret
-  --set privateCA=true
+  [--set privateCA=true]
 ```
 
 6. Add Secret
