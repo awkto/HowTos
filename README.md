@@ -1,0 +1,15 @@
+## List of How-To Docs
+- AzureAD_for_Gitlab.md
+- almalinux_new_vm_setup.md
+- certificates-for-gitlab.md
+- certificates-for-pihole.md
+- ce-rtificates-for-proxmox.md
+- congregate-cheatsheet.md
+- direct-download_gitlab-packages.md
+- gitlab-to-saas_congregate.md
+- gitlab_install_vm.md
+- rancher-helm-on-k8s.md
+- rancher-in-docker.md
+- rancher-on-k3s.md
+- user_on_new_linux_vm.md
+- vault-deploy.md
