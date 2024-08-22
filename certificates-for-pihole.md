@@ -53,7 +53,7 @@ These files will be updated when the certificate renews.
 
 ---
 
-## Part 2 Certbot Instructions
+## Part 2 Pihole Cert Instructions
 
 1. Copy the certificates to Pihole at these locations
 - Make a new dir with `sudo mkdir /etc/lighttpd/ssl/`
