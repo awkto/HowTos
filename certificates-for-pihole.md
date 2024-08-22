@@ -21,13 +21,13 @@ _Skip this part if you have already acquired your certificates_
 1. Install certbot on a server, it can be any server, not necessary your pihole server
 2. Run this command to start the process
 
-`certbot certonly --manual -d *.mydomain.com`
+`certbot certonly --manual -d *.mydomain.ca`
 
 3. Certbot will ask you questions, and eventually give you an output similar to 
 ```
 Please deploy a DNS TXT record under the name:
 
-_acme-challenge.dnsif.ca.
+_acme-challenge.mydomain.ca.
 
 with the following value:
 
@@ -40,15 +40,15 @@ vqcwGUeQVgpfu-D_TIgHobOZ44o7wUUsSpT9nJBKKs4
 6. Certbot will verify the DNS record and give you this output
 ```
 Successfully received certificate.
-Certificate is saved at: /etc/letsencrypt/live/dnsif.ca/fullchain.pem
-Key is saved at:         /etc/letsencrypt/live/dnsif.ca/privkey.pem
+Certificate is saved at: /etc/letsencrypt/live/mydomain.ca/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/mydomain.ca/privkey.pem
 This certificate expires on 2024-10-01.
 These files will be updated when the certificate renews.
 ```
 6. Grab the 2 certificate files 
 
-- `/etc/letsencrypt/live/dnsif.ca/fullchain.pem`
-- `/etc/letsencrypt/live/dnsif.ca/privkey.pem`
+- `/etc/letsencrypt/live/mydomain.ca/fullchain.pem`
+- `/etc/letsencrypt/live/mydomain.ca/privkey.pem`
 
 
 ---
@@ -63,7 +63,7 @@ These files will be updated when the certificate renews.
 
 3. Enter the following config, replacing the FQDN with your own
 ```
-var.fqdn = "gitlab.dnsif.ca"
+var.fqdn = "gitlab.mydomain.ca"
 
 $SERVER["socket"] == ":443" {
     ssl.engine = "enable"
