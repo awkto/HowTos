@@ -35,5 +35,8 @@ helm install rancher rancher-latest/rancher \
 
 6. Add Secret
 ```
-kubectl create secret generic tls-ca --from-file=/opt/rancherkeys/fullchain.pem -n cattle-system
+kubectl -n cattle-system create secret tls tls-rancher-ingress \
+  --cert=tls.crt \
+  --key=tls.key
 ```
+_Make sure the file names are tls.crt and tls.key_
