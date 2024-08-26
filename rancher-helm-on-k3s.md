@@ -1,11 +1,15 @@
 # Rancher on k3s with Helm chart
 This assumes Ubuntu OS with helm and kubectl already installed
 
-Prerequisite : Get certs manually
+**Prerequisite** : Get certs manually
 ```
 certbot certonly --manual --preferred-challenges dns --email [EMAIL] --domains [FQDN]
 ```
-
+**Important**
+Certbot generates multiple files.
+- Don't use fullchain.pem
+- Rename cert.pem to tls.crt
+- Rename privkey.pem to tls.key
 
 
 1. Install k3s
@@ -32,23 +36,24 @@ helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
 kubectl create namespace cattle-system
 ```
 
-5. Deploy rancher (update the DNS name)
-```
-helm install rancher rancher-latest/rancher \
-  --namespace cattle-system \
-  --set hostname=rancher.my.org \
-  --set bootstrapPassword=admin \
-  --set ingress.tls.source=secret
-  [--set privateCA=true]
-```
-
-6. Add Secret
+5. Add Secret
 ```
 kubectl -n cattle-system create secret tls tls-rancher-ingress \
   --cert=tls.crt \
   --key=tls.key
 ```
 _Make sure the file names are tls.crt and tls.key_
+
+
+6. Deploy rancher (update the DNS name)
+```
+helm install rancher rancher-latest/rancher \
+  --namespace cattle-system \
+  --set hostname=rancher.my.org \
+  --set bootstrapPassword=admin \
+  --set ingress.tls.source=secret
+```
+
 
 7. (Optional) QOL Tweaks
 - Set default namespace
