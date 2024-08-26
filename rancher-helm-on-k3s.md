@@ -1,6 +1,13 @@
 # Rancher on k3s with Helm chart
 This assumes Ubuntu OS with helm and kubectl already installed
 
+Prerequisite : Get certs manually
+```
+certbot certonly --manual --preferred-challenges dns --email [EMAIL] --domains [FQDN]
+```
+
+
+
 1. Install k3s
 ```
 curl -sfL https://get.k3s.io | sh -
@@ -42,3 +49,13 @@ kubectl -n cattle-system create secret tls tls-rancher-ingress \
   --key=tls.key
 ```
 _Make sure the file names are tls.crt and tls.key_
+
+7. (Optional) QOL Tweaks
+- Set default namespace
+```
+kubectl config set-context --current --namespace=cattle-system
+```
+- Add this line to .bashrc to set default kube editor
+```
+export KUBE_EDITOR=/usr/bin/nano
+```
