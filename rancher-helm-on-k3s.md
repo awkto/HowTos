@@ -1,15 +1,17 @@
 # Rancher on k3s with Helm chart
 This assumes Ubuntu OS with helm and kubectl already installed
 
-1. Install microk8s
+1. Install k3s
 ```
-sudo snap install microk8s --classic
+curl -sfL https://get.k3s.io | sh -
 ```
 
-2. Grab kube conf from microk8s
+2. Grab kube conf from k3s
 ```
 mkdir ~/.kube
-microk8s config > ~/.kube/config
+sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+chown user:user ~/.kube/config
+chmod 600 ~/.kube/config
 ```
 
 3. Add helm repos for rancher
