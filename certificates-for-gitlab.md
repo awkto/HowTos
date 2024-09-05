@@ -17,6 +17,9 @@ Use this command syntax below, and replace the hostname with your own server hos
 2. Run this command to start the process
 
 `certbot certonly --manual -d *.mydomain.com`
+OR 
+`certbot certonly --manual --preferred-challenges dns -d *.mydomain.com`
+
 
 3. Certbot will ask you questions, and eventually give you an output similar to 
 ```
