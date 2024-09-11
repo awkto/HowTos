@@ -30,7 +30,8 @@ helm install cert-manager jetstack/cert-manager \
   --version v1.5.4 \
   --set installCRDs=true
 ```
-_Note we're installing the CRDs via this helm install command, and not manually beforehand_
+  _Note we're installing the CRDs via this helm install command, and not manually beforehand_
+  
 2. Create yaml file cluster-issuer.yaml
 ```
 apiVersion: cert-manager.io/v1
@@ -49,7 +50,8 @@ spec:
         ingress:
           class: traefik
 ```
-_Notice the class here is traefik and not nginx_
+  _Notice the class here is traefik and not nginx_
+  
 3. Install the cluster-issuer.yaml
 ```
 kubectl apply -f cluster-issuer.yaml
@@ -79,7 +81,8 @@ helm install rancher rancher-latest/rancher \
 _Use your correct email and hostname. Also note again we use traefik_
 
 4. Allow a few minutes for the certificates to install
-You can check with
+
+  _You can check with_
 ```
 kubectl -n cattle-system get ingress
 ```
