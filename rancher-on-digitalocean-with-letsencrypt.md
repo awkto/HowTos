@@ -62,7 +62,7 @@ kubectl apply -f cluster-issuer.yaml
 1. Add the repos
 ```
 helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
-
+helm repo update
 ```
 2. Create the namespace
 ```
