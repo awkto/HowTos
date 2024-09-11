@@ -16,7 +16,7 @@ _This installs and runs a k3s cluster_
 3. Fix up your kube config
 ```
 sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
-sudo chown USER:USER ~/.kube/config 
+sudo chown $USER:$USER ~/.kube/config 
 ```
 
 ### Install Cert Manager
