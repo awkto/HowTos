@@ -16,6 +16,7 @@ curl -sfL https://get.k3s.io | sh -
 
 3. Fix up your kube config
 ```
+mkdir ~/.kube
 sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
 sudo chown $USER:$USER ~/.kube/config 
 ```
