@@ -34,6 +34,16 @@ sudo apt-get update
 sudo apt-get install helm
 ```
 
+6. Change default editor if you prefer nano, `nano ~/.bashrc` and add :
+```
+export KUBE_EDITOR=/usr/bin/nano
+```
+
+7. Set default kubectl namespace
+```
+kubectl config set-context --current --namespace=cattle-system
+```
+
 ## Install Cert Manager
 1. Install cert manager
 ```
