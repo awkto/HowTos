@@ -47,7 +47,7 @@ helm install cert-manager jetstack/cert-manager \
 ```
   _Note we're installing the CRDs via this helm install command, and not manually beforehand_
   
-2. Create yaml file cluster-issuer.yaml
+2. Create yaml file cluster-issuer.yaml `nano cluster-issuer.yaml`
 ```
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
