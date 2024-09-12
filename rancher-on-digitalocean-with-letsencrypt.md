@@ -1,7 +1,7 @@
-## Rancher with LetsEncrypt on DigitalOcean VM
+# Rancher with LetsEncrypt on DigitalOcean VM
 These steps work by using traefik as the ingress instead of nginx (deviation from the official docs)
 
-### Pre-Requisites
+## Pre-Requisites
 1. Deploy a Linux VM on Digital Ocean (I use Ubuntu24)
 ```
 doctl compute droplet create --size s-2vcpu-8gb-amd --region syd1 --image ubuntu-22-04-x64 --ssh-keys [YOUR-SSH-KEY-ID]
@@ -34,7 +34,7 @@ sudo apt-get update
 sudo apt-get install helm
 ```
 
-### Install Cert Manager
+## Install Cert Manager
 1. Install cert manager
 ```
 helm repo add jetstack https://charts.jetstack.io
@@ -72,7 +72,7 @@ spec:
 kubectl apply -f cluster-issuer.yaml
 ```
 
-### Install Rancher
+## Install Rancher
 
 1. Add the repos
 ```
