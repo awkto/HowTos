@@ -6,13 +6,14 @@ These steps work by using traefik as the ingress instead of nginx (deviation fro
 ```
 doctl compute droplet create --size s-2vcpu-8gb-amd --region syd1 --image ubuntu-22-04-x64 --ssh-keys [YOUR-SSH-KEY-ID]
 ```
-_You might want to add a non-root user and allow sudo_
+  _You might want to add a non-root user and allow sudo_
 
 2. Install k3s on the VM
 ```
 curl -sfL https://get.k3s.io | sh -
 ```
-_This installs and runs a k3s cluster_
+  _This installs and runs a k3s cluster_
+
 3. Fix up your kube config
 ```
 sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
