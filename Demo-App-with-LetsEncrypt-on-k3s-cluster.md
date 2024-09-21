@@ -15,6 +15,28 @@ kubectl create secret generic digitalocean-dns-token \
   --namespace cert-manager
 ```
 
+2. Install cert manager with helm
+
+First add and update helm repo
+```
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+```
+
+Next install with
+```
+kubectl create namespace cert-manager
+helm install cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --version v1.14.1 \
+  --set installCRDs=true
+```
+
+Lastly verify with
+```
+kubectl get pods --namespace cert-manager
+```
+
 2. Deploy this nginx web app `nginx-hello-deployment.yaml`
 ```
 apiVersion: apps/v1
