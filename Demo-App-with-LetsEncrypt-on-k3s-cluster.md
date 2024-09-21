@@ -37,7 +37,7 @@ Lastly verify with
 kubectl get pods --namespace cert-manager
 ```
 
-2. Deploy this nginx web app `nginx-hello-deployment.yaml`
+3. Deploy this nginx web app `nginx-hello-deployment.yaml`
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -73,7 +73,7 @@ spec:
   type: ClusterIP
 ```
 
-3. Deploy the ingress `nginx-hello-ingress.yaml` for the same app
+4. Deploy the ingress `nginx-hello-ingress.yaml` for the same app
 ```
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -100,7 +100,7 @@ spec:
               number: 80
 ```
 
-4. Finally, `deploy certificate.yaml` to request the cert
+5. Finally, `deploy certificate.yaml` to request the cert
 ```
 apiVersion: cert-manager.io/v1
 kind: Certificate
