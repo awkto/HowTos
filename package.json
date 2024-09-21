@@ -6,6 +6,6 @@
     "build": "eleventy"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^1.0.0"  // Ensure this version is correct
+    "@11ty/eleventy": "^1.0.0"
   }
 }
