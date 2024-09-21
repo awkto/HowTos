@@ -1,0 +1,103 @@
+## Automated SSL certs on Harvester
+Notes
+- We will use digitalocean for DNS
+- We use cert-manager and add digitalocean token for automatic TXT record creation
+
+
+#### Notes
+- Harvester gets installed as a cluster on namespace cattle-system
+- Runs on an RKE2 cluster, with NGINX as the ingress
+
+  
+1. Add your DigitalOcean API token first for auto DNS verification
+```
+kubectl create secret generic digitalocean-dns-token \
+  --from-literal=access-token=YOUR_DIGITALOCEAN_API_TOKEN \
+  --namespace cert-manager
+```
+
+2. Install cert manager with helm
+
+First add and update helm repo
+```
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+```
+
+Next install with
+```
+kubectl create namespace cert-manager
+helm install cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --version v1.14.1 \
+  --set installCRDs=true
+```
+
+Lastly verify with
+```
+kubectl get pods --namespace cert-manager
+```
+2b. (Alternate) Install without helm
+```
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.crds.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
+kubectl get pods --namespace cert-manager
+```
+
+3. Deploy a certificate with `deploy certificate.yaml`
+```
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: hello-world-tls
+  namespace: default # Ensure it matches your app's namespace
+spec:
+  secretName: harv-certbot-tls-secret
+  duration: 2160h # 90 days
+  renewBefore: 720h # 30 days in hours
+  issuerRef:
+    name: letsencrypt-digitalocean
+    kind: ClusterIssuer
+  commonName: HOSTNAME   #change this
+  dnsNames:
+    - HOSTNAME   #change this
+    - ALT-HOSTNAME   #change this
+```
+4. Edit your rancher ingress with `kubectl edit ingress -n cattle-system`
+Change it to look like this. Mostly just adding that TLS section
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{},"creationTimestamp":"2024-09-20T21:32:15Z","generation":2,"name":"rancher-expose","namespace":"cattle-system","resourceVersion":"216541","uid":"6ed3e3aa-2436-478b-944b-ec239829a2e2"},"spec":{"ingressClassName":"nginx","rules":[{"host":"harv-test.dnsif.ca"},{"http":{"paths":[{"backend":{"service":{"name":"rancher","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}}],"tls":[{"hosts":["harv-test.dnsif.ca","cluster.harv-test.dnsif.ca"],"secretName":"harv-certbot-tls-secret"}]},"status":{"loadBalancer":{"ingress":[{"ip":"192.168.152.191"}]}}}
+  creationTimestamp: "2024-09-20T21:32:15Z"
+  generation: 3
+  name: rancher-expose
+  namespace: cattle-system
+  resourceVersion: "221626"
+  uid: 6ed3e3aa-2436-478b-944b-ec239829a2e2
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: HOSTNAME   #change this
+    http:
+      paths:
+      - backend:
+          service:
+            name: rancher
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - HOSTNAME   #change this
+    - ALT-HOSTNAME   #change this
+    secretName: harv-certbot-tls-secret
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.168.152.191
+```
