@@ -36,6 +36,12 @@ Lastly verify with
 ```
 kubectl get pods --namespace cert-manager
 ```
+2b. (Alternate) Install without helm
+```
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.crds.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
+kubectl get pods --namespace cert-manager
+```
 
 3. Deploy this nginx web app `nginx-hello-deployment.yaml`
 ```
