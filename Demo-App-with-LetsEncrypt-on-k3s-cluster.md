@@ -8,11 +8,13 @@ We will use **cert-manager** here with the digitalocean dns plugin which validat
 - ingress will be deployed for the app
 - certificate yaml will be deployed
 
-#### Pre-Requisites
+### Pre-Requisites
 Install helm
 ```
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 ```
+
+### Instructions
 
 1. Install cert manager with helm
 
