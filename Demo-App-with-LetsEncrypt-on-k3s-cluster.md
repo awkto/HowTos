@@ -8,14 +8,7 @@ We will use **cert-manager** here with the digitalocean dns plugin which validat
 - ingress will be deployed for the app
 - certificate yaml will be deployed
 
-1. Add your DigitalOcean API token first for auto DNS verification
-```
-kubectl create secret generic digitalocean-dns-token \
-  --from-literal=access-token=YOUR_DIGITALOCEAN_API_TOKEN \
-  --namespace cert-manager
-```
-
-2. Install cert manager with helm
+1. Install cert manager with helm
 
 First add and update helm repo
 ```
@@ -36,11 +29,18 @@ Lastly verify with
 ```
 kubectl get pods --namespace cert-manager
 ```
-2b. (Alternate) Install without helm
+1b. (Alternate) Install without helm
 ```
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.crds.yaml
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
 kubectl get pods --namespace cert-manager
+```
+
+2. Add your DigitalOcean API token first for auto DNS verification
+```
+kubectl create secret generic digitalocean-dns-token \
+  --from-literal=access-token=YOUR_DIGITALOCEAN_API_TOKEN \
+  --namespace cert-manager
 ```
 
 3. Deploy this nginx web app `nginx-hello-deployment.yaml`
