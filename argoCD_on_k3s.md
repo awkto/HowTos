@@ -116,7 +116,7 @@ metadata:
 
 ---
 
-### ArgoCD CLI and configuration
+## ArgoCD CLI and configuration
 
 1. Install Argo CLI
 ```
