@@ -114,8 +114,26 @@ spec:
             port:
               number: 80
 ```
-
-5. Finally, `deploy certificate.yaml` to request the cert
+5. Now deploy the ClusterIssuer with `clusterissuer.yaml`
+```
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-digitalocean
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: EMAIL@EXAMPLE.COM  # CHANGE THIS
+    privateKeySecretRef:
+      name: letsencrypt-digitalocean-key
+    solvers:
+    - dns01:
+        digitalocean:
+          tokenSecretRef:
+            name: digitalocean-dns-token  #CHANGE THIS IF DIFFERENT
+            key: access-token
+```
+6. Finally, `deploy certificate.yaml` to request the cert
 ```
 apiVersion: cert-manager.io/v1
 kind: Certificate
