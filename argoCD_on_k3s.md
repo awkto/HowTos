@@ -123,7 +123,8 @@ metadata:
 sudo curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
 sudo chmod +x /usr/local/bin/argocd
 ```
-2. Get initial login password for argo
+2. Get initial **admin** password for argo
 ```
 kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d
 ```
+username is _admin_
