@@ -1,12 +1,18 @@
-## Demo App with LetsEncrypt on k3s cluster
+# Demo App with LetsEncrypt on k3s cluster
 
 We will use **cert-manager** here with the digitalocean dns plugin which validates domain ownership by automatically creating a DNS record on a digitalocean domain. An API key must be generated and added to the cluster
 
-#### Notes
+### Notes
 - k3s comes with traefik as the default ingress instead of nginx
 - nginx web app will be deployed
 - ingress will be deployed for the app
 - certificate yaml will be deployed
+
+#### Pre-Requisites
+Install helm
+```
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+```
 
 1. Install cert manager with helm
 
