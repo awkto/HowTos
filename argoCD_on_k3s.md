@@ -113,3 +113,17 @@ metadata:
   resourceVersion: "88925"
   uid: ffada842-69d4-461c-b268-a00f8d7f5bb0
 ```
+
+---
+
+### ArgoCD CLI and configuration
+
+1. Install Argo CLI
+```
+sudo curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+sudo chmod +x /usr/local/bin/argocd
+```
+2. Get initial login password for argo
+```
+kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d
+```
