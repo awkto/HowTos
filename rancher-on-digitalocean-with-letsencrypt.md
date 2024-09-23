@@ -1,7 +1,5 @@
-# Rancher with LetsEncrypt on DigitalOcean VM
-These steps work by using traefik as the ingress instead of nginx (deviation from the official docs)
-
-Rancher works best on RKE2 cluster
+# Rancher with LetsEncrypt with DigitalOcean DNS API
+These instructions help you deploy Rancher on either k3s or an rke2 cluster, and avoid some pitfalls that I spent a lot of time troubleshooting.
 
 ## Pre-Requisites
 1. Deploy a Linux VM on Digital Ocean (I use Ubuntu24)
