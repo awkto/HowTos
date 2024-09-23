@@ -120,7 +120,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: harv-certificate
-  namespace: default # Ensure it matches your app's namespace
+  namespace: cattle-system # Ensure it matches your app's namespace
 spec:
   secretName: harv-certbot-tls-secret
   duration: 2160h # 90 days
