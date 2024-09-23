@@ -157,4 +157,23 @@ kubectl -n cattle-system get ingress
 You may see 2 ingresses here while cert-manager is still trying to validate.
 Once validated, the HTTP ingress will stop and you will then just see 1 ingress remain
 
+4b. Manually install certificate
+```
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: rancher-letsencrypt-certificate
+  namespace: cattle-system # Ensure it matches your app's namespace
+spec:
+  secretName: rancher-letsencrypt-secret
+  duration: 2160h # 90 days
+  renewBefore: 720h # 30 days in hours
+  issuerRef:
+    name: letsencrypt-digitalocean-clusterissuer
+    kind: ClusterIssuer
+  commonName: HOSTNAME
+  dnsNames:
+    - HOSTNAME
+```
+
 5. Log in to Rancher via web browser to confirm proper certificates applied
