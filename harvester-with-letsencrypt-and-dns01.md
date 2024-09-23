@@ -14,7 +14,7 @@ Notes
 1. Add your DigitalOcean API token first for auto DNS verification
 ```
 kubectl create namespace cert-manager
-kubectl create secret generic digitalocean-dns-token \
+kubectl create secret generic digitalocean-api-token \
   --from-literal=access-token=$DOKEYK8S \
   --namespace cert-manager
 ```
