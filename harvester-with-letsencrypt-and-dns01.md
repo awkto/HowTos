@@ -61,16 +61,16 @@ metadata:
   uid: 5bebc608-2b51-453b-8c96-6de7ce87c6af
 spec:
   acme:
-    email: $CERTS_EMAIL  #change this
+    email: CERTS_EMAIL  #change this
     privateKeySecretRef:
-      name: letsencrypt-digitalocean-key
+      name: acme-private-key
     server: https://acme-v02.api.letsencrypt.org/directory
     solvers:
     - dns01:
         digitalocean:
           tokenSecretRef:
             key: token
-            name: digitalocean-secret  #THIS SHOULD MATCH YOUR TOKEN SECRET
+            name: digitalocean-api-token  #THIS SHOULD MATCH YOUR TOKEN SECRET
 ```
 
 4. Edit your rancher ingress with `kubectl edit ingress -n cattle-system`
