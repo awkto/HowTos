@@ -15,7 +15,7 @@ Notes
 ```
 kubectl create namespace cert-manager
 kubectl create secret generic digitalocean-api-token \
-  --from-literal=access-token=$DOKEYK8S \
+  --from-literal=token=$DOKEYK8S \
   --namespace cert-manager
 ```
 
