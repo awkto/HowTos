@@ -154,3 +154,10 @@ spec:
 ```
 
 5. Log in to Rancher via web browser to confirm proper certificates applied
+
+6. (Troubleshooting) Reset Admin Password
+If for some reason the bootstrap command does not work and you can't perform the _initial_ login to rancher, run this command
+```
+kubectl -n cattle-system exec $(kubectl -n cattle-system get pods -l app=rancher | grep '1/1' | head -1 | awk '{ print $1 }') -- reset-password
+```
+Then log in with user **admin** and the password it gives you
