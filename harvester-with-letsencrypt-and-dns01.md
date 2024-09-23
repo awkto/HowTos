@@ -56,7 +56,7 @@ metadata:
       {"apiVersion":"cert-manager.io/v1","kind":"ClusterIssuer","metadata":{"annotations":{},"name":"letsencrypt-digitalocean"},"spec":{"acme":{"email":"certs@jixi.ca","privateKeySecretRef":{"name":"letsencrypt-digitalocean-key"},"server":"https://acme-v02.api.letsencrypt.org/directory","solvers":[{"dns01":{"digitalocean":{"tokenSecretRef":{"key":"token","name":"digitalocean-secret"}}}}]}}}
   creationTimestamp: "2024-09-20T22:41:13Z"
   generation: 1
-  name: letsencrypt-digitalocean
+  name: letsencrypt-digitalocean-clusterissuer
   resourceVersion: "54873"
   uid: 5bebc608-2b51-453b-8c96-6de7ce87c6af
 spec:
