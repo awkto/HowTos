@@ -119,14 +119,14 @@ status:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: hello-world-tls
+  name: harv-certificate
   namespace: default # Ensure it matches your app's namespace
 spec:
   secretName: harv-certbot-tls-secret
   duration: 2160h # 90 days
   renewBefore: 720h # 30 days in hours
   issuerRef:
-    name: letsencrypt-digitalocean
+    name: letsencrypt-digitalocean-clusterissuer
     kind: ClusterIssuer
   commonName: HOSTNAME   #change this
   dnsNames:
