@@ -45,6 +45,13 @@ export KUBE_EDITOR=/usr/bin/nano
 kubectl config set-context --current --namespace=cattle-system
 ```
 
+8. Add digitalocean API token
+```
+kubectl create secret generic digitalocean-dns-token \
+  --from-literal=access-token=$DOKEYK8S \
+  --namespace cert-manager
+```
+
 ## Install Cert Manager
 1. Install cert manager
 ```
