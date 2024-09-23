@@ -47,8 +47,9 @@ kubectl config set-context --current --namespace=cattle-system
 
 8. Add digitalocean API token
 ```
-kubectl create secret generic digitalocean-dns-token \
-  --from-literal=access-token=$DOKEYK8S \
+kubectl create namespace cert-manager
+kubectl create secret generic digitalocean-api-token \
+  --from-literal=token=$DOKEYK8S \
   --namespace cert-manager
 ```
 
@@ -57,7 +58,6 @@ kubectl create secret generic digitalocean-dns-token \
 ```
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
-kubectl create namespace cert-manager
 helm install cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --version v1.5.4 \
@@ -70,7 +70,7 @@ helm install cert-manager jetstack/cert-manager \
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-prod
+  name: letsencrypt-digitalocean-clusterissuer
   namespace: cert-manager
 spec:
   acme:
@@ -91,7 +91,7 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-prod
+  name: letsencrypt-digitalocean-clusterissuer
   namespace: cert-manager
 spec:
   acme:
@@ -103,8 +103,8 @@ spec:
     - dns01:
         digitalocean:
           tokenSecretRef:
-            key: access-token
-            name: digitalocean-dns-token
+            key: token
+            name: digitalocean-api-token
 
 ```
   
@@ -135,6 +135,18 @@ helm install rancher rancher-latest/rancher \
   --set letsEncrypt.ingress.class=traefik
 ```
 _Use your correct email and hostname. Also note again we use traefik_
+
+3b. Install Rancher with **agentTLSMode** set to `system-store`
+```
+ helm install rancher rancher-latest/rancher \
+  --namespace cattle-system \
+  --set hostname=rancher.rke.dnsif.ca \
+  --set ingress.tls.source=letsEncrypt \
+  --set letsEncrypt.email=certs@jixi.ca \
+  --set letsEncrypt.ingress.class=nginx \
+  --set agentTLSMode=system-store
+
+```
 
 4. Allow a few minutes for the certificates to install
 
