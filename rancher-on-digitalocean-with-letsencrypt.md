@@ -19,7 +19,7 @@ systemctl enable rke2-server.service
 systemctl start rke2-server.service
 ```
 
-- **rke2 install**
+  - **k3s install**
 ```
 curl -sfL https://get.k3s.io | sh -
 ```
@@ -99,28 +99,31 @@ helm repo update
 kubectl create namespace cattle-system
 ```
 
-3. Install Rancher
+3. Install Rancher on **rke2** with **agentTLSMode** set to `system-store`
 ```
 helm install rancher rancher-latest/rancher \
   --namespace cattle-system \
   --set hostname=HOSTNAME.EXAMPLE.COM \
   --set ingress.tls.source=letsEncrypt \
   --set letsEncrypt.email=certs@jixi.ca \
-  --set letsEncrypt.ingress.class=nginx
-```
-_Use your correct email and hostname. Also note again we use traefik_
+  --set letsEncrypt.ingress.class=nginx \
+  --set agentTLSMode=system-store
 
-3b. Install Rancher with **agentTLSMode** set to `system-store`
+```
+_Note we use ingress class nginx for rke2_
+
+3b. Install Rancher on **k3s** with **agentTLSMode** set to `system-store`
 ```
  helm install rancher rancher-latest/rancher \
   --namespace cattle-system \
   --set hostname=HOSTNAME \
   --set ingress.tls.source=letsEncrypt \
   --set letsEncrypt.email=certs@jixi.ca \
-  --set letsEncrypt.ingress.class=nginx \
+  --set letsEncrypt.ingress.class=traefik \
   --set agentTLSMode=system-store
 
 ```
+_Note we use ingress class traefik for k3s_
 
 4. Allow a few minutes for the certificates to install
 
