@@ -58,7 +58,7 @@ helm install cert-manager jetstack/cert-manager \
 ```
   _Note we're installing the CRDs via this helm install command, and not manually beforehand_
   
-2. Create yaml file cluster-issuer.yaml `nano cluster-issuer.yaml`
+2. Create yaml file **cluster-issuer.yaml** with https01 challenge
 ```
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -77,6 +77,29 @@ spec:
           class: traefik
 ```
   _Notice the class here is traefik and not nginx_
+
+2b. Create same **cluster-issuer.yaml** but with dns01 challenge
+
+```
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+  namespace: cert-manager
+spec:
+  acme:
+    email: $CERTS_EMAIL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - dns01:
+        digitalocean:
+          tokenSecretRef:
+            key: access-token
+            name: digitalocean-dns-token
+
+```
   
 3. Install the cluster-issuer.yaml
 ```
