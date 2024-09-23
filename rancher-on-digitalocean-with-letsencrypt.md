@@ -1,6 +1,8 @@
 # Rancher with LetsEncrypt on DigitalOcean VM
 These steps work by using traefik as the ingress instead of nginx (deviation from the official docs)
 
+Rancher works best on RKE2 cluster
+
 ## Pre-Requisites
 1. Deploy a Linux VM on Digital Ocean (I use Ubuntu24)
 ```
@@ -8,44 +10,44 @@ doctl compute droplet create --size s-2vcpu-8gb-amd --region syd1 --image ubuntu
 ```
   _You might want to add a non-root user and allow sudo_
 
-2. Install k3s on the VM
+2. Install rke2 or k3s on the VM
+
+   - **rke2 install**
+```
+curl -sfL https://get.rke2.io | sh -
+systemctl enable rke2-server.service
+systemctl start rke2-server.service
+```
+
+- **rke2 install**
 ```
 curl -sfL https://get.k3s.io | sh -
 ```
-  _This installs and runs a k3s cluster_
 
-3. Fix up your kube config
-```
-mkdir ~/.kube
-sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
-sudo chown $USER:$USER ~/.kube/config 
-```
 
-4. Install kubectl
+3. Add SAN to TLS config on **rke2** `sudo nano /etc/rancher/rke2/config.yaml`
 ```
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+tls-san:
+- rancher.demo.com   <---- add FQDN
+- 192.168.152.206
 ```
-5. Install helm
-```
-curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
-sudo apt-get install apt-transport-https --yes
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
-sudo apt-get update
-sudo apt-get install helm
-```
+  - Restart rke2 with `systemctl restart rke2-server`
+  - Copy/update your kubeconfig from `/etc/rancher/rke2/rke2.yaml`
+  - Disable `insecure-skip-tls-verify` option if you added it previously
+  - Test with **kubectl get namespaces**
 
-6. Change default editor if you prefer nano, `nano ~/.bashrc` and add :
+3b. Add SAN to TLS config on **k3s** `sudo nano /etc/rancher/rke2/config.yaml`
 ```
-export KUBE_EDITOR=/usr/bin/nano
+tls-san:
+- rancher.demo.com   <---- add FQDN
+- 192.168.152.206
 ```
+  - Restart k3s with `systemctl restart k3s`
+  - Copy/update your kubeconfig from `/etc/rancher/k3s/k3s.yaml`
+  - Disable `insecure-skip-tls-verify` option if you added it previously
+  - Test with **kubectl get namespaces**
 
-7. Set default kubectl namespace
-```
-kubectl config set-context --current --namespace=cattle-system
-```
-
-8. Add digitalocean API token
+4. Add digitalocean API token (replace or use the env var)
 ```
 kubectl create namespace cert-manager
 kubectl create secret generic digitalocean-api-token \
@@ -53,8 +55,7 @@ kubectl create secret generic digitalocean-api-token \
   --namespace cert-manager
 ```
 
-## Install Cert Manager
-1. Install cert manager
+5. Install cert manager
 ```
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
@@ -63,29 +64,8 @@ helm install cert-manager jetstack/cert-manager \
   --version v1.5.4 \
   --set installCRDs=true
 ```
-  _Note we're installing the CRDs via this helm install command, and not manually beforehand_
-  
-2. Create yaml file **cluster-issuer.yaml** with https01 challenge
-```
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-digitalocean-clusterissuer
-  namespace: cert-manager
-spec:
-  acme:
-    email: certs@jixi.ca
-    server: https://acme-v02.api.letsencrypt.org/directory
-    privateKeySecretRef:
-      name: letsencrypt-prod
-    solvers:
-    - http01:
-        ingress:
-          class: traefik
-```
-  _Notice the class here is traefik and not nginx_
 
-2b. Create same **cluster-issuer.yaml** but with dns01 challenge
+6. Deploy **cluster-issuer.yaml** with dns01 challenge
 
 ```
 apiVersion: cert-manager.io/v1
@@ -95,22 +75,16 @@ metadata:
   namespace: cert-manager
 spec:
   acme:
-    email: $CERTS_EMAIL
+    email: CERTS_EMAIL     <---- UPDATE THIS
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt-prod
+      name: acme-private-key
     solvers:
     - dns01:
         digitalocean:
           tokenSecretRef:
             key: token
             name: digitalocean-api-token
-
-```
-  
-3. Install the cluster-issuer.yaml
-```
-kubectl apply -f cluster-issuer.yaml
 ```
 
 ## Install Rancher
@@ -132,7 +106,7 @@ helm install rancher rancher-latest/rancher \
   --set hostname=HOSTNAME.EXAMPLE.COM \
   --set ingress.tls.source=letsEncrypt \
   --set letsEncrypt.email=certs@jixi.ca \
-  --set letsEncrypt.ingress.class=traefik
+  --set letsEncrypt.ingress.class=nginx
 ```
 _Use your correct email and hostname. Also note again we use traefik_
 
@@ -140,7 +114,7 @@ _Use your correct email and hostname. Also note again we use traefik_
 ```
  helm install rancher rancher-latest/rancher \
   --namespace cattle-system \
-  --set hostname=rancher.rke.dnsif.ca \
+  --set hostname=HOSTNAME \
   --set ingress.tls.source=letsEncrypt \
   --set letsEncrypt.email=certs@jixi.ca \
   --set letsEncrypt.ingress.class=nginx \
