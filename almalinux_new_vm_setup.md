@@ -5,9 +5,11 @@ This is a result of broken key trust on DigitalOcean's AlmaLinux images. And thi
 ## Fix broken GPG key for Repository
 [Source](https://serverfault.com/questions/1144827/alma-linux-8-update-fails-for-any-package-with-gpg-keys-check-fail)
 
+
+- Download key `curl https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux -o /etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux`
 - Install wget `yum install wget`
-- Download key `wget https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux`
-- Move to right place `sudo mv RPM-GPG-KEY-AlmaLinux /etc/pki/rpm-gpg/`
+- Install updates `dnf update`
+
 
 Alternately, in fewer commands 
 ```
