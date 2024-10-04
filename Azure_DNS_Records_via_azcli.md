@@ -35,6 +35,9 @@ az configure --defaults group=[RESOURCE-GROUP-NAME]
 1. Create DNS records with
 ```
 az network dns record-set a add-record --zone-name [ZONE-NAME] --ttl 600 --record-set-name [RECORD-NAME] --ipv4-address [IP-ADDRESS]
+
+#SHORTER
+az network dns record-set a add-record --zone-name [ZONE-NAME] --ttl 600 -n [RECORD-NAME] --ip [IP-ADDRESS]
 ```
 
 ### (Optional) How to delete a DNS record set
@@ -45,7 +48,7 @@ az network dns record-set list --zone-name [ZONE-NAME]
 
 2. Delete one DNS record set with
 ```
-az network dns record-set a delete --zone-name [ZONE-NAME] --name [RECORD-NAME]
+az network dns record-set a delete --zone-name [ZONE-NAME] -n [RECORD-NAME]
 ```
 
 ## (Alias) Create Aliases for easy Creation
@@ -58,7 +61,7 @@ alias azddns="az network dns record-set a delete --zone-name [ZONE-NAME]"
 
 2. Use them like this (create / list / delete)
 ```
-az-dns-create --name [HOSTNAME] --ipv4-address [IP-ADDRESS]
+az-dns-create -n [HOSTNAME] --ip [IP-ADDRESS]
 az-dns-list
-az-dns-delete --name [HOSTNAME]
+az-dns-delete -n [HOSTNAME]
 ```
