@@ -51,9 +51,9 @@ az network dns record-set a delete --zone-name [ZONE-NAME] --name [RECORD-NAME]
 ## (Alias) Create Aliases for easy Creation
 1. Create the aliases with the zone and ttl baked in
 ```
-alias azcdns="az network dns record-set a delete --zone-name [ZONE-NAME] --ttl 600"
+alias azcdns="az network dns record-set a add-record --zone-name [ZONE-NAME] --ttl 600"
 alias azdns="az network dns record-set list --zone-name [ZONE-NAME]"
-alias azddns="az network dns record-set list --zone-name [ZONE-NAME]"
+alias azddns="az network dns record-set a delete --zone-name [ZONE-NAME]"
 ```
 
 2. Use them like this (create / list / delete)
