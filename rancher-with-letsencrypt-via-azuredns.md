@@ -90,7 +90,7 @@ spec:
           environment: AzurePublicCloud 
 ```
 
-6b. Alternately deploy a local Issuer instead of ClusterIssuer (works more easily with Rancher helm)
+6b. Alternately deploy a local **issuer.yaml** instead of ClusterIssuer (works more easily with Rancher helm)
 ```
 apiVersion: cert-manager.io/v1
 kind: Issuer
