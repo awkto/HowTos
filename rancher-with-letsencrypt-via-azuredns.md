@@ -2,13 +2,11 @@
 These instructions help you deploy Rancher on either k3s or an rke2 cluster, and avoid some pitfalls that I spent a lot of time troubleshooting.
 
 ## Pre-Requisites
-1. Deploy a Linux VM on Digital Ocean (I use Ubuntu24)
-```
-doctl compute droplet create --size s-2vcpu-8gb-amd --region syd1 --image ubuntu-22-04-x64 --ssh-keys [YOUR-SSH-KEY-ID]
-```
+1. Deploy a Linux VM somewhere (I use Ubuntu24 on proxmox)
+   
   _You might want to add a non-root user and allow sudo_
 
-2. Install rke2 or k3s on the VM
+3. Install rke2 or k3s on the VM
   - rke2 install
 ```
 curl -sfL https://get.rke2.io | sh -
@@ -21,7 +19,9 @@ curl -sfL https://get.k3s.io | sh -
 ```
 
 
-3. Add SAN to TLS config on **rke2** `sudo nano /etc/rancher/rke2/config.yaml`
+3. Add SAN to TLS config on **rke2**
+
+`sudo nano /etc/rancher/rke2/config.yaml`
 ```
 tls-san:
 - rancher.demo.com   <---- add FQDN
