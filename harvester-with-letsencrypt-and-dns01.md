@@ -1,16 +1,55 @@
 ## Automated SSL certs on Harvester
-Notes
-- We will use digitalocean for DNS
-- We use cert-manager and add digitalocean token for automatic TXT record creation
-
 
 #### Notes
 - Harvester gets installed as a cluster on namespace cattle-system
 - Runs on an RKE2 cluster, with NGINX as the ingress
 - Create environment variable $CERTS_EMAIL for the email address to use for certs
 - Create environment variable $DOKEYK8S for the digitalocean API token for letsencrypt
+- We use cert-manager and add digitalocean token for automatic TXT record creation
+- We will use digitalocean for DNS
 
-  
+
+## Install Harvester and Fix TLS
+1. Install Harvester with ISO boot
+   - Set a static IP or DHCP reservation
+   - Create DNS record to match the name used during install
+   - Store/save cluster passwords etc
+
+2. Fix TLS SAN on harvester configmap
+
+First edit the config map
+
+`kubectl edit configmap harvester-helpers -n harvester-system`
+
+Next Find the VIP section under **tls-san** which looks like this
+```
+    tls-san:
+      - $VIP
+```
+Insert your harvester DNS FQDN into that section, so it looks like this
+```
+    tls-san:
+      - harvester.example.com
+      - $VIP
+```
+
+3. Verify TLS san by checking file on harvester server
+```
+cat /etc/rancher/rke2/config.yaml.d/90-harvester-server.yaml
+```
+
+3. Change TLS SAN to use DNS name instead of IP
+```
+tls-san:
+  - harvester.example.com
+```
+
+4. Restart rke2
+```
+sudo systemctl restart rke2-server
+```
+
+
 1. Add your DigitalOcean API token first for auto DNS verification
 ```
 kubectl create namespace cert-manager
