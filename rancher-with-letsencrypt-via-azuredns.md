@@ -27,7 +27,7 @@ tls-san:
 - rancher.demo.com   <---- add FQDN
 - 192.168.152.206   <---- IP optional, use only if you connect via IP
 ```
-  - Restart rke2 with `systemctl restart rke2-server`
+  - Restart rke2 with `sudo systemctl restart rke2-server`
   - Copy/update your kubeconfig from `/etc/rancher/rke2/rke2.yaml`
   - Disable `insecure-skip-tls-verify` option if you added it previously
   - Test with **kubectl get namespaces**
