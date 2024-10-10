@@ -32,7 +32,9 @@ tls-san:
   - Disable `insecure-skip-tls-verify` option if you added it previously
   - Test with **kubectl get namespaces**
 
-3b. Add SAN to TLS config on **k3s** `sudo nano /etc/rancher/k3s/config.yaml`
+3b. Add SAN to TLS config on **k3s** 
+
+`sudo nano /etc/rancher/k3s/config.yaml`
 ```
 tls-san:
 - rancher.demo.com   <---- add FQDN
