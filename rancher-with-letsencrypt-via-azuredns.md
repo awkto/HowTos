@@ -9,15 +9,13 @@ doctl compute droplet create --size s-2vcpu-8gb-amd --region syd1 --image ubuntu
   _You might want to add a non-root user and allow sudo_
 
 2. Install rke2 or k3s on the VM
-
-   - **rke2 install**
+  - rke2 install
 ```
 curl -sfL https://get.rke2.io | sh -
 systemctl enable rke2-server.service
 systemctl start rke2-server.service
 ```
-
-  - **k3s install**
+  - k3s install
 ```
 curl -sfL https://get.k3s.io | sh -
 ```
