@@ -54,6 +54,16 @@ helm install rancher rancher-latest/rancher \
   --set ingress.tls.source=secret
 ```
 
+6b. Using lets encrypt and traefik ingress controller
+```yaml
+ helm install rancher rancher-latest/rancher \
+  --namespace cattle-system \
+  --set hostname=HOSTNAME \
+  --set ingress.tls.source=letsEncrypt \
+  --set letsEncrypt.email=certs@jixi.ca \
+  --set letsEncrypt.ingress.class=traefik \
+  --set agentTLSMode=system-store
+```
 
 7. (Optional) QOL Tweaks
 - Set default namespace
