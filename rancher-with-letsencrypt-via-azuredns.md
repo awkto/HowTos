@@ -9,9 +9,9 @@ These instructions help you deploy Rancher on either k3s or an rke2 cluster, and
 3. Install rke2 or k3s on the VM
   - rke2 install
 ```
-curl -sfL https://get.rke2.io | sh -
-systemctl enable rke2-server.service
-systemctl start rke2-server.service
+curl -sfL https://get.rke2.io | sudo sh -
+sudo systemctl enable rke2-server.service
+sudo systemctl start rke2-server.service
 ```
   - k3s install
 ```
