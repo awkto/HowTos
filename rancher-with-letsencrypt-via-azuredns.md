@@ -46,13 +46,23 @@ tls-san:
   - Disable `insecure-skip-tls-verify` option if you added it previously
   - Test with **kubectl get namespaces**
 
-4. Add Azure SPN API token 
+4. Add Azure SPN API token (for clusterissuer)
 ```
 kubectl create namespace cert-manager
 kubectl create secret generic azure-letsencrypt-spn-secret \
   --namespace cert-manager \
   --from-literal=client-secret='<app-password>' 
 ```
+
+4b. Add Azure SPN API token (for local issuer)
+```
+kubectl create namespace cattle-system
+kubectl create secret generic azure-letsencrypt-spn-secret \
+  --namespace cert-manager \
+  --from-literal=client-secret='<app-password>' 
+```
+
+
 
 5. Install cert manager
 ```
