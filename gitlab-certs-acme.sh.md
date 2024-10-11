@@ -19,11 +19,17 @@ This assumes using DNS challenge and hosting DNS records on Azure DNS. As such a
    acme.sh --register-account -m your-email@example.com
    ```
 
-4. Provision certificates for your server fqdn
+4. Provision certificates for your gitlab server FQDN
    ```bash
-   acme.sh --install-cert -d yourdomain.com \
-   --cert-file /etc/gitlab/ssl/yourdomain.com.crt \
-   --key-file /etc/gitlab/ssl/yourdomain.com.key \
-   --fullchain-file /etc/gitlab/ssl/yourdomain.com.fullchain.crt \
+   acme.sh --issue --dns dns_azure -d gitlab.yourdomain.com
+   ```
+
+
+5. Install the certificates into the Gitlab SSL directory
+   ```bash
+   acme.sh --install-cert -d gitlab.yourdomain.com \
+   --cert-file /etc/gitlab/ssl/gitlab.yourdomain.com.crt \
+   --key-file /etc/gitlab/ssl/gitlab.yourdomain.com.key \
+   --fullchain-file /etc/gitlab/ssl/gitlab.yourdomain.com.fullchain.crt \
    --reloadcmd "gitlab-ctl restart nginx"
    ```
