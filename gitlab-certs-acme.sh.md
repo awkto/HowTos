@@ -34,24 +34,24 @@ This assumes using DNS challenge and hosting DNS records on Azure DNS. As such a
    --reloadcmd "gitlab-ctl restart nginx"
    ```
 
-5b. Alternately add symbolic links to the SSL certificates
+6. Alternately add symbolic links to the SSL certificates
    ```bash
    ln -s /home/user/.acme.sh/gitlab.domain.com/gitlab.domain.com.key /etc/gitlab/gitlab.domain.com.key
    ln -s /home/user/.acme.sh/gitlab.domain.com/gitlab.domain.com.cer /etc/gitlab/gitlab.domain.com.cer
    ```
 
-6. Make sure your gitlab nginx conf points to the correct cert files
+7. Make sure your gitlab nginx conf points to the correct cert files
    ```bash
    ssl_certificate /etc/gitlab/ssl/gitlab.domain.com.cer;
    ssl_certificate_key /etc/gitlab/ssl/gitlab.domain.com.key;
    ```
 
-7. Restart nginx
+8. Restart nginx
    ```bash
    sudo gitlab-ctl restart nginx
    ```
 
-8. (Optional), add an HTTP redirect to Gitlab's Nginx config `/var/opt/gitlab/nginx/conf/gitlab-http.conf`
+9. (Optional), add an HTTP redirect to Gitlab's Nginx config `/var/opt/gitlab/nginx/conf/gitlab-http.conf`
    ```bash
    server {
      listen *:80;
