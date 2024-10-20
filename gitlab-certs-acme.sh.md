@@ -36,8 +36,8 @@ This assumes using DNS challenge and hosting DNS records on Azure DNS. As such a
 
 6. Alternately add symbolic links to the SSL certificates
    ```bash
-   ln -s /home/user/.acme.sh/gitlab.domain.com/gitlab.domain.com.key /etc/gitlab/gitlab.domain.com.key
-   ln -s /home/user/.acme.sh/gitlab.domain.com/gitlab.domain.com.cer /etc/gitlab/gitlab.domain.com.cer
+   ln -s /home/user/.acme.sh/gitlab.domain.com/gitlab.domain.com.key /etc/gitlab/ssl/gitlab.domain.com.key
+   ln -s /home/user/.acme.sh/gitlab.domain.com/gitlab.domain.com.cer /etc/gitlab/ssl/gitlab.domain.com.cer
    ```
 
 7. Make sure your gitlab nginx conf points to the correct cert files
@@ -55,8 +55,15 @@ This assumes using DNS challenge and hosting DNS records on Azure DNS. As such a
    ```bash
    server {
      listen *:80;
-     server_name gitlab.tux42.au gitlab02.tux42.au gitlab.nginx.tux42.au gitlab02.nginx.tux42.au;
+     server_name gitlab.domain.com gitlab02.domain.com gitlab.nginx.domain.com gitlab02.nginx.domain.com;
      return 302 https://$host$request_uri;
    }
    ```
 
+10. If you ever need to re-configure gitlab with `gitlab-ctl reconfigure` make sure your **gitlab.rb** contains these lines
+```bash
+nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.domain.com.cer"
+nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.domain.com.key"
+nginx['listen_https'] = true
+nginx['generate_default_cert'] = false
+```
