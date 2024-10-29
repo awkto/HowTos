@@ -1,6 +1,47 @@
 ## Fixing TLS SAN to use DNS name
-_Currently this section isn't complete, you can skip this section_
-1. Fix TLS SAN on harvester configmap (~broken, resets)
+
+Harvester comes with default tls-san that may not match your DNS records
+
+To add a SAN to the auto-generated TLS certificates : 
+1. SSH into Harvester as `ssh rancher@harvester-fqdn`
+2. Switch to root with `sudo bash`
+3. Edit the file **/etc/rancher/rke2/config.yaml.d/90-harvester-server.yaml**
+4. Under 'tls-san' section add your DNS names. Example : 
+```
+cni: multus,canal
+cluster-cidr: 10.52.0.0/16
+service-cidr: 10.53.0.0/16
+cluster-dns: 10.53.0.10
+tls-san:
+  - 192.168.152.205
+  - harvester.example.com      <--- ADD FQDN HERE
+kubelet-arg:
+- "max-pods=200"
+audit-policy-file: /etc/rancher/rke2/config.yaml.d/92-harvester-kube-audit-policy.yaml
+```
+5. You might have to delete the existing certs to force them to regenerate
+```
+    sudo rm -f /var/lib/rancher/rke2/server/tls/serving-kube-apiserver.crt
+    sudo rm -f /var/lib/rancher/rke2/server/tls/serving-kube-apiserver.key
+```
+
+
+6. Restart rancher with `sudo systemctl restart rke2-server`
+```
+sudo systemctl restart rke2-server
+```
+---
+
+## Alternate Solution
+1. Alternately, either
+   - simply use the **IP address** in your kubeconfig, OR
+   - use `--insecure-skip-tls-verify` in the kubeconfig
+
+---
+
+## Troubleshooting
+
+1. Manually Fix TLS SAN on harvester configmap (~broken, resets)
 
 First edit the config map
 
@@ -17,18 +58,3 @@ Insert your harvester DNS FQDN into that section, so it looks like this
       - harvester.example.com
       - $VIP
 ```
-
-2. Verify TLS san by checking file on harvester server
-```
-cat /etc/rancher/rke2/config.yaml.d/90-harvester-server.yaml
-```
-_Manually updating this works but will reset on reboot_
-
-3. Restart rke2
-```
-sudo systemctl restart rke2-server
-```
-
-4. Alternately, either
-   - simply use the **IP address** in your kubeconfig, OR
-   - use `--insecure-skip-tls-verify` in the kubeconfig
