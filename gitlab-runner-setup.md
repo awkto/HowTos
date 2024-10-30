@@ -24,7 +24,23 @@ sudo gitlab-runner register -n \
   --docker-volumes "/certs/client"
 ```
 
-4. Install docker on runner
+4. Verify or fix the /etc/gitlab-runner/config.toml to enable privilaged
+
+```
+  [runners.docker]
+    tls_verify = false
+    image = "docker:latest"
+    privileged = true            
+    disable_entrypoint_overwrite = false
+    oom_kill_disable = false
+    disable_cache = false
+    volumes = ["/cache"]
+    shm_size = 0
+    network_mtu = 0
+
+```
+
+5. Install docker on runner
 ```
 sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -33,13 +49,13 @@ sudo apt update
 sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 ```
 
-5. Enable and start the service
+6. Enable and start the service
 ```
 sudo systemctl start docker
 sudo systemctl enable docker
 ```
 
-6. Add gitlab-runner user to allow docker access
+7. Add gitlab-runner user to allow docker access
 ```
 sudo usermod -aG docker $USER
 ```
