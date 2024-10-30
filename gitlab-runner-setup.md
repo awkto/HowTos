@@ -25,7 +25,7 @@ sudo gitlab-runner register -n \
 ```
 
 4. Verify or fix the /etc/gitlab-runner/config.toml to enable privilaged
-
+_Also verify the volumes line contains '/certs/client/' _
 ```
   [runners.docker]
     tls_verify = false
@@ -34,7 +34,7 @@ sudo gitlab-runner register -n \
     disable_entrypoint_overwrite = false
     oom_kill_disable = false
     disable_cache = false
-    volumes = ["/cache"]
+    volumes = ["/certs/client/", "/cache"]
     shm_size = 0
     network_mtu = 0
 
