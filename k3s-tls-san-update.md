@@ -12,10 +12,10 @@ You might have to delete the kubeconfig as well to regenerate it.
    ```
    _Replace the fqdn and ip with your cluster specific details_
 
-2. Delete the cluster certificate files
+2. (Optional) Delete the cluster certificate files if they don't regenerate
    ```bash
-   sudo rm /var/lib/rancher/k3s/tls/serving-kube-apiserver.crt
-   sudo rm /var/lib/rancher/k3s/tls/serving-kube-apiserver.key
+   sudo rm /var/lib/rancher/k3s/server/tls/serving-kube-apiserver.crt
+   sudo rm /var/lib/rancher/k3s/server/tls/serving-kube-apiserver.key
    ```
 
 3. Restart k3s service
@@ -25,7 +25,7 @@ You might have to delete the kubeconfig as well to regenerate it.
 
 4. Test and verify the SAN was added with **openssl**
    ```bash
-   openssl x509 -in serving-kube-apiserver.crt -text -nooutq|grep -i altern -A1
+   openssl x509 -in /var/lib/rancher/k3s/server/tls/serving-kube-apiserver.crt -text -nooutq|grep -i alternative -A1
    ```
 
 5. Update your local kubeconfig by copying out the k3s cluster kubeconfig at :
