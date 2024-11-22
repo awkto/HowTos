@@ -36,6 +36,10 @@ Follow these steps to add or edit an extension repository in Rancher, as shown i
    - Go back to the **Extensions** tab.
    - Confirm that the repository has been added and that extensions from this repository are now visible.
 
+8. **Install Harvester Extension**
+   - Select the Harvester extension
+   - Hit Install
+     
 ---
 
 ## Verify the Repository
