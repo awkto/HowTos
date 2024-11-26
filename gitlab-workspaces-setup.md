@@ -7,10 +7,12 @@
 
 ## DNS Setup
 Add DNS records and wildcard DNS records for test and workspaces
-  	- k8s.example.com -> [Public IP]
-  	- *.k8s.example.com -> [Public IP]
-  	- workspaces.example.com -> [Public IP]
-  	- *.workspaces.example.com -> [Public IP]
+    
+    k8s.example.com -> [Public IP]
+    *.k8s.example.com -> [Public IP]
+    workspaces.example.com -> [Public IP]
+    *.workspaces.example.com -> [Public IP]
+    
 
 ## Kubernetes Cluster Setup
 1. Set up a VM and deploy RKE2 cluster on it
@@ -168,4 +170,37 @@ Validate ClusterIssuer is working with Test App
         - test.k8s.example.com
         secretName: nginx-tls
     ```
-    
+   
+# Workspace Configuration
+## GitLab OAuth - Create a user-owned application
+To create a new application for your user:
+1. On the left sidebar, select your avatar.
+2. Select **Edit profile**.
+3. On the left sidebar, select **Applications**.
+4. Select **Add new application**.
+5. Enter a **Name** and **Redirect URI**.
+6. Select OAuth 2 **Scopes** as defined in Authorized Applications.
+7. In the **Redirect URI**, enter the URL where users are sent after they authorize with GitLab.
+8. Select **Save application**. GitLab provides:
+    - The OAuth 2 Client ID in the **Application ID** field.
+    - The OAuth 2 Client Secret, accessible by selecting **Copy** in the **Secret** field.
+    - The **Renew secret** function in GitLab 15.9 and later. Use this function to generate and copy a new secret for this application. Renewing a secret prevents the existing application from functioning until the credentials are updated.
+
+
+## To register an app on your GitLab instance:
+1. Configure GitLab as an **OAuth 2.0 identity provider**.
+2. Set the redirect URI to `https://${GITLAB_WORKSPACES_PROXY_DOMAIN}/auth/callback`.
+3. Select the **Trusted** checkbox.
+4. Set the scopes to `api`, `read_user`, `openid`, and `profile`.
+5. Export your `GITLAB_URL`, `CLIENT_ID`, `CLIENT_SECRET`, `REDIRECT_URI`, and `SIGNING_KEY`:
+    ```
+    export GITLAB_URL="https://gitlab.com"
+    export CLIENT_ID="your_application_id"
+    export CLIENT_SECRET="your_application_secret"
+    export REDIRECT_URI="https://${GITLAB_WORKSPACES_PROXY_DOMAIN}/auth/callback"
+    export SIGNING_KEY="make_up_a_random_key_consisting_of_letters_numbers_and_special_chars"
+    ```
+Store the client ID and generated secret in a safe place (for example, 1Password).
+
+
+
