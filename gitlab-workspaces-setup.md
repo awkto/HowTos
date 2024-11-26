@@ -203,4 +203,85 @@ To create a new application for your user:
 Store the client ID and generated secret in a safe place (for example, 1Password).
 
 
+## Generate an SSH host key
+To generate an RSA key, run this command:
+```
+ssh-keygen -f ssh-host-key -N '' -t rsa
+export SSH_HOST_KEY=$(pwd)/ssh-host-key
+```
+
+## Create Kubernetes secrets
+Create the namespace for **gitlab-workspaces**
+```
+kubectl create namespace gitlab-workspaces
+```
+Create the secret
+```
+kubectl create secret generic gitlab-workspaces-proxy-config \
+  --namespace="gitlab-workspaces" \
+  --from-literal="auth.client_id=${CLIENT_ID}" \
+  --from-literal="auth.client_secret=${CLIENT_SECRET}" \
+  --from-literal="auth.host=${GITLAB_URL}" \
+  --from-literal="auth.redirect_uri=${REDIRECT_URI}" \
+  --from-literal="auth.signing_key=${SIGNING_KEY}" \
+  --from-literal="ssh.host_key=$(cat ${SSH_HOST_KEY})"
+```
+
+## Install the **gitlab-workspaces-proxy** via helm
+
+1. Add the helm repository:
+```
+helm repo add gitlab-workspaces-proxy \
+  https://gitlab.com/api/v4/projects/gitlab-org%2fworkspaces%2fgitlab-workspaces-proxy/packages/helm/devel
+helm repo update
+```
+
+2. Create env vars
+```
+export GITLAB_WORKSPACES_WILDCARD_DOMAIN="workspaces.example.com"
+export GITLAB_WORKSPACES_PROXY_DOMAIN="workspaces.example.com"
+```
+
+3. Install the helm
+```
+helm upgrade --install gitlab-workspaces-proxy \
+  gitlab-workspaces-proxy/gitlab-workspaces-proxy \
+  --version=0.1.16 \
+  --namespace="gitlab-workspaces" \
+  --set="ingress.enabled=true" \
+  --set="ingress.hosts[0].host=${GITLAB_WORKSPACES_PROXY_DOMAIN}" \
+  --set="ingress.hosts[0].paths[0].path=/" \
+  --set="ingress.hosts[0].paths[0].pathType=ImplementationSpecific" \
+  --set="ingress.hosts[1].host=${GITLAB_WORKSPACES_WILDCARD_DOMAIN}" \
+  --set="ingress.hosts[1].paths[0].path=/" \
+  --set="ingress.hosts[1].paths[0].pathType=ImplementationSpecific" \
+  --set="ingress.tls[0].hosts[0]=${GITLAB_WORKSPACES_PROXY_DOMAIN}" \
+  --set="ingress.tls[0].secretName=gitlab-workspace-proxy-tls" \
+  --set="ingress.tls[1].hosts[0]=${GITLAB_WORKSPACES_WILDCARD_DOMAIN}" \
+  --set="ingress.tls[1].secretName=gitlab-workspace-proxy-wildcard-tls" \
+  --set="ingress.className=nginx"
+```
+_Todo: See if there is a way to add the clusterissuer anotation during this helm command_
+
+4. Edit the ingress to add the annotation
+Edit the ingress
+```
+kubectl edit ingress -n gitlab-workspaces
+```
+Add anotation
+```
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-azuredns"
+```
+
+## Verify Kubernetes resources
+Verify the Ingress class, hosts, address, and port for the gitlab-workspaces namespace:
+```
+kubectl -n gitlab-workspaces get ingress
+```
+
+Verify the pods are running:
+```
+kubectl -n gitlab-workspaces get pods
+```
 
