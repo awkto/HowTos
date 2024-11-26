@@ -92,7 +92,8 @@ Add DNS records and wildcard DNS records for test and workspaces
 ## Test Application (optional)
 
 Validate ClusterIssuer is working with Test App
-    1. Create and apply **test-namespace.yaml**
+
+1. Create and apply **test-namespace.yaml**
     ```
     # test-namespace.yaml
     apiVersion: v1
@@ -100,7 +101,7 @@ Validate ClusterIssuer is working with Test App
     metadata:
       name: test
     ```
-    2. Create and apply **test-app.yaml**
+2. Create and apply **test-app.yaml**
     ```
     # nginx-deployment.yaml
     apiVersion: apps/v1
@@ -140,7 +141,7 @@ Validate ClusterIssuer is working with Test App
         targetPort: 80
       type: ClusterIP
     ```
-    3. Create and apply **test-ingress.yaml**
+3. Create and apply **test-ingress.yaml**
     ```
     # nginx-ingress.yaml
     apiVersion: networking.k8s.io/v1
