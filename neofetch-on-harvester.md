@@ -1,4 +1,4 @@
-# How to Run Neofetch on Harvester
+c# How to Run Neofetch on Harvester
 Neofetch is a lightweight system information tool that provides a sleek overview of your system, including OS, kernel, CPU, memory, and more. Harvester's immutable system design makes installing packages challenging, but Neofetch can be run as a portable script without installation.
 
 Follow this guide to run Neofetch on a Harvester system.
@@ -8,7 +8,7 @@ Follow this guide to run Neofetch on a Harvester system.
 Log in to your Harvester system and download the Neofetch script directly from its official GitHub repository:
 
 ```bash
-wget https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch
+curl https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o neofetch
 ```
 2. Make the Script Executable
 After downloading, you need to give the script executable permissions:
