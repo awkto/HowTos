@@ -33,7 +33,6 @@ sudo rm -f /var/lib/rancher/rke2/server/tls/serving-kube-apiserver.key
 
 ## Adding Cert Manager
 1. Install cert manager
-
 ```
 kubectl create namespace cert-manager
 helm repo add jetstack https://charts.jetstack.io
@@ -44,25 +43,15 @@ helm install cert-manager jetstack/cert-manager \
   --set installCRDs=true
 ```
 
-[INCOMPLETE FROM THIS POINT IN. WORK IN PROGRESS]
+2. Add DigitalOcean API key for DNS validation
+```
+kubectl create secret generic digitalocean-api-token \
+  --from-literal=token=$DOKEYK8S \
+  --namespace cert-manager
+```
 
-2. Encrypt your DigitalOcean token
-```
-echo -n 'your-digitalocean-api-token' | base64
-```
-3. Save it in a secret with this file **dosecret.yaml**
-```
-apiVersion: v1
-kind: Secret
-metadata:
-  name: digitalocean-dns-token
-  namespace: cert-manager
-data:
-  access-token: BASE64_ENCODED_TOKEN
-```
-_Apply with `kubectl apply -f dosecret.yaml`_
 
-4. Deploy this **clusterissuer.yaml**
+3. Deploy this **clusterissuer.yaml**
 ```
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -78,32 +67,28 @@ spec:
       - dns01:
           digitalocean:
             tokenSecretRef:
-              name: digitalocean-dns-token
+              name: digitalocean-api-token
               key: access-token
 ```
 
-5. Edit your Harvester ingress with
+4. Edit your Harvester ingress with
 
 ```
-kubectl get ingress -n cattle-system rancher-expose -o yaml > ingress.original.yaml
-cp ingress.original.yaml ingress.modified.yaml
-nano ingress.modified.yaml
+kubectl edit ingress -n cattle-system
 ```
-
-  
 
 Add these two lines in the annotation section
 
 ```
     cert-manager.io/acme-challenge-type: dns01
-    cert-manager.io/cluster-issuer: letsencrypt-azuredns
+    cert-manager.io/cluster-issuer: letsencrypt-dodns
 ```
 
 Add a host line above 'http' so it looks like this
 
 ```
     rules:
-    - host: harvester.tux42.au
+    - host: harv.example.com
       http:
         paths:
         - backend:
@@ -120,16 +105,9 @@ And add a tls section right under that, nested in spec
 ```
   tls:
   - hosts:
-    - harvester.tux42.au
+    - harv.example.com
     secretName: tls-rancher-ingress
 ```
-
-5. Apply with
-
-```bash
-kubectl apply -f ingress.modified.yaml
-```
-
   
 6. Verify with
 
