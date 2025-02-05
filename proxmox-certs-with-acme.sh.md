@@ -24,20 +24,20 @@ Install the certificate to a user-accessible directory:
 
 ```bash
 acme.sh --install-cert -d proxmox.example.com \
---key-file /home/altanc/.acme.sh/proxmox.example.com_ecc/proxmox.example.com.key \
---fullchain-file /home/altanc/.acme.sh/proxmox.example.com_ecc/fullchain.cer \
---reloadcmd "/home/altanc/acme-proxmox-hook.sh"
+--key-file /home/demouser/.acme.sh/proxmox.example.com_ecc/proxmox.example.com.key \
+--fullchain-file /home/demouser/.acme.sh/proxmox.example.com_ecc/fullchain.cer \
+--reloadcmd "/home/demouser/acme-proxmox-hook.sh"
 ```
 
 #### 4. **Create a Hook Script to Copy the Certificates**
-Create a script (`/home/altanc/acme-proxmox-hook.sh`) to copy the certificates to Proxmox’s SSL folder:
+Create a script (`/home/demouser/acme-proxmox-hook.sh`) to copy the certificates to Proxmox’s SSL folder:
 
 ```bash
 #!/bin/bash
 
 # Copy the key and certificate to Proxmox's SSL folder
-sudo cp /home/altanc/.acme.sh/proxmox.example.com_ecc/proxmox.example.com.key /etc/pve/local/pve-ssl.key
-sudo cp /home/altanc/.acme.sh/proxmox.example.com_ecc/fullchain.cer /etc/pve/local/pve-ssl.pem
+sudo cp /home/demouser/.acme.sh/proxmox.example.com_ecc/proxmox.example.com.key /etc/pve/local/pve-ssl.key
+sudo cp /home/demouser/.acme.sh/proxmox.example.com_ecc/fullchain.cer /etc/pve/local/pve-ssl.pem
 
 # Set correct permissions
 sudo chmod 640 /etc/pve/local/pve-ssl.key
@@ -50,21 +50,21 @@ sudo systemctl restart pveproxy
 Make the script executable:
 
 ```bash
-chmod +x /home/altanc/acme-proxmox-hook.sh
+chmod +x /home/demouser/acme-proxmox-hook.sh
 ```
 
 #### 5. **Grant `sudo` Permissions for the Hook Script**
 Edit the `sudoers` file using `visudo` and add:
 
 ```bash
-altanc ALL=(root) NOPASSWD: /bin/cp, /bin/chmod, /bin/systemctl
+demouser ALL=(root) NOPASSWD: /bin/cp, /bin/chmod, /bin/systemctl
 ```
 
 #### 6. **Run the Hook Script Manually for Initial Setup**
 Execute the hook script to copy the certificates and restart Proxmox:
 
 ```bash
-/home/altanc/acme-proxmox-hook.sh
+/home/demouser/acme-proxmox-hook.sh
 ```
 
 #### 7. **Verify the SSL Certificate**
