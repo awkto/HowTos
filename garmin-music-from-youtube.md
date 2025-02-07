@@ -49,3 +49,8 @@ This works best if you have multiple youtube playlists you download and save the
    ```
    ./create-playlists.sh
    ```
+
+## Add mp3s and playlists to Garmin watch
+1. Connect your garmin watch to your PC
+2. Copy the mp3 folders in the Music folder of your Garmin watch
+3. Add the m3us to the root of the Music folder
