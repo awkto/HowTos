@@ -38,8 +38,8 @@ This assumes using DNS challenge and hosting DNS records on DigitalOcean DNS. As
 
 6. Alternately add symbolic links to the SSL certificates
    ```bash
-   ln -s /home/user/.acme.sh/gitlab.domain.com/gitlab.domain.com.key /etc/gitlab/ssl/gitlab.domain.com.key
-   ln -s /home/user/.acme.sh/gitlab.domain.com/gitlab.domain.com.cer /etc/gitlab/ssl/gitlab.domain.com.cer
+   ln -s /home/user/.acme.sh/gitlab.domain.com_ecc/gitlab.domain.com.key /etc/gitlab/ssl/gitlab.domain.com.key
+   ln -s /home/user/.acme.sh/gitlab.domain.com_ecc/fullchain.cer /etc/gitlab/ssl/fullchain.cer
    ```
 
 7. Make sure your gitlab nginx conf points to the correct cert files
