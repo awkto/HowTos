@@ -19,10 +19,6 @@ This guide will help you install AppImage Launcher and use it to install and run
 
 1. Navigate to your `Downloads` directory:
 
-   ```bash
-   cd ~/Downloads
-   ```
-
 2. Run the UpNote AppImage by double-clicking it in your file manager. AppImage Launcher will prompt you with an option to **"Integrate and Run"**. Click this button to integrate UpNote into your system.
 
 ## Step 4: Run UpNote
