@@ -25,7 +25,7 @@
 
 Each machine needs a private and public key pair. You can generate them using `wg genkey | tee privatekey | wg pubkey > publickey`.
 
-_(Using the keys provided in the example):_
+_(Using dummy keys in the example):_
 
 - **wg-bastion:**
     - Private: `bN3xP7yGz6hK0jL9mN2qR5tV8xZ1bA4cD7fG9hJ1kM`
