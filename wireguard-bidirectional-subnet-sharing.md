@@ -32,6 +32,7 @@ wg genkey | tee privatekey | wg pubkey > publickey
 Repeat this for the Office Server, Home Server, Bastion, `user1-homepc`, `user1-workpc`, and `user1-phone`. You will later distribute the appropriate private and public keys to each respective node.
 3. **Define VPN Subnet:** Choose a private subnet for your WireGuard VPN tunnel network. We will use `10.99.0.0/24`. This subnet should not overlap with your home or office networks.
 4. **Assign VPN IPs:** Assign an IP address from the `10.99.0.0/24` subnet to each WireGuard node. We will assign the first few to servers and the bastion, and start user devices from .101. It's helpful to note these down:
+
     - Office Server: `10.99.0.1`
     - Home Server: `10.99.0.2`
     - Bastion Server: `10.99.0.3`
