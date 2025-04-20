@@ -239,3 +239,12 @@ Create similar files for `user1-workpc` (using `10.99.0.102/24`) and `user1-
 3. **Distribute Configs:** Securely transfer these configuration files to the respective user devices. The method will vary depending on the device's operating system (e.g., scp, manual copy, QR code for mobile).
 
 Once all three servers (Office, Home, and Bastion) have their WireGuard interfaces up and configured correctly, and the user devices have their configurations and WireGuard running, devices on the home network should be able to reach devices on the office network (and vice-versa) by routing through the Bastion server. User devices connected directly to the bastion will be able to access resources on both the home and office networks. You can test connectivity using `ping` between devices on different networks. Remember that local firewalls on individual devices might also need to be configured to allow traffic from the remote subnet.
+
+
+### Part 6 - Optimize Route for Physical Networks
+
+Wireguard routes typically take priority over physical subnet routes like Lan or Wifi. This is a problem if and only if you are on the same network that your wireguard also gives you access to (and wireguard is running). Additionally it applies only if you are using this guide to share the entire network range at the office/home.
+
+If you do run into that situation, you will want to prevent your network traffic from going through wireguard, and instead have it go through the physical connection and route.
+
+The easiest way to do that is to update the **AllowedIPs** in your wg config files for the user devices and _increase_ the CIDR boundary of the subnet. In our example we would increase the `10.50.0.0/16` to `10.50.0.0/15`. This is a simple and clever solution but comes with caveats. You can only do this if the next /16 subnet `10.51.0.0/16` is not in use at all. The reason this works is because network routes _always_ give a higher priority to more specific routes. So if the wireguard route is `10.50.0.0/15` (less specific) and the physical interface route is `10.50.0.0/16` (more specific), then network traffic will always go through the physical interface when your user device is connected to that network physically (lan or wifi). You can then just always keep wireguard running and traffic will automatically follow an optimized route when you run into this specific type of conflicting routes.
