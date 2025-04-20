@@ -248,3 +248,19 @@ Wireguard routes typically take priority over physical subnet routes like Lan or
 If you do run into that situation, you will want to prevent your network traffic from going through wireguard, and instead have it go through the physical connection and route.
 
 The easiest way to do that is to update the **AllowedIPs** in your wg config files for the user devices and _increase_ the CIDR boundary of the subnet. In our example we would increase the `10.50.0.0/16` to `10.50.0.0/15`. This is a simple and clever solution but comes with caveats. You can only do this if the next /16 subnet `10.51.0.0/16` is not in use at all. The reason this works is because network routes _always_ give a higher priority to more specific routes. So if the wireguard route is `10.50.0.0/15` (less specific) and the physical interface route is `10.50.0.0/16` (more specific), then network traffic will always go through the physical interface when your user device is connected to that network physically (lan or wifi). You can then just always keep wireguard running and traffic will automatically follow an optimized route when you run into this specific type of conflicting routes.
+
+### Part 7 - QR Codes for User Configs
+
+Using QR codes is very useful for getting your wireguard config to mobile user devices (phones or tablets).
+
+1. Install qrencode
+```
+sudo apt-get install qrencode
+```
+
+2. Generate QR code from a wireguard config for a user device
+```
+qrencode -t ANSIUTF8 < wg-client.conf
+```
+
+3. Install Wireguard mobile app and scan the QR code from the Wireguard Import menu
