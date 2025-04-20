@@ -20,14 +20,13 @@ The first step is to generate the necessary public and private keys for each Wir
 1. **Install WireGuard:** Install WireGuard on a machine. The bastion server is a convenient place to do this for key generation. Follow the installation instructions for your operating system (e.g., `sudo apt update && sudo apt install wireguard` on Debian/Ubuntu).
 2. **Generate Keys:** For each node that will run WireGuard, generate a public and private key pair and save them in a structured manner on the bastion host. You can use the following command, replacing `[node_name]` with the name of each node (office-server, home-server, bastion, user1-homepc, user1-workpc, user1-phone, etc.):
 
-Bash
-
 <br>
 
-```
+```bash
 mkdir -p /etc/wireguard/keys/[node_name]
-wg genkey | tee /etc/wireguard/keys/[node_name]/privatekey | wg pubkey > /etc/wireguard/keys/[node_name]/publickey
 chmod 600 /etc/wireguard/keys/[node_name]/privatekey
+cd /etc/wireguard/keys/[node_name]
+wg genkey | tee privatekey | wg pubkey > publickey
 ```
 
 Repeat this for the Office Server, Home Server, Bastion, `user1-homepc`, `user1-workpc`, and `user1-phone`. You will later distribute the appropriate private and public keys to each respective node.
@@ -36,9 +35,9 @@ Repeat this for the Office Server, Home Server, Bastion, `user1-homepc`, `user
     - Office Server: `10.99.0.1`
     - Home Server: `10.99.0.2`
     - Bastion Server: `10.99.0.3`
-    - `user1-homepc`: `10.99.0.101`
-    - `user1-workpc`: `10.99.0.102`
-    - `user1-phone`: `10.99.0.103`
+    - user1-homepc: `10.99.0.101`
+    - user1-workpc: `10.99.0.102`
+    - user1-phone: `10.99.0.103`
     - (Continue assigning from `10.99.0.104` for any other user devices)
 
 ### Part 2 - Set Up WireGuard Server on Office Network
@@ -48,18 +47,16 @@ Set up a machine on your office network to act as the WireGuard endpoint for tha
 1. **Install WireGuard:** Install WireGuard on the chosen machine (if not already installed).
 2. **Enable IPv4 Forwarding:** This allows the server to route traffic between the WireGuard network and the office network. Edit `/etc/sysctl.conf` and uncomment or add the line:
 
-```
+```bash
 net.ipv4.ip_forward=1
 ```
 
 Apply the change: `sudo sysctl -p`
 3. **Configure WireGuard:** Create a WireGuard configuration file, typically in `/etc/wireguard/wg0.conf`. Use the private key generated for the office server and the public key generated for the bastion.
 
-Ini, TOML
-
 <br>
 
-```
+```toml
 [Interface]
 PrivateKey = <Office Server Private Key> # Get from /etc/wireguard/keys/office-server/privatekey on bastion
 Address = 10.99.0.1/32
@@ -99,11 +96,9 @@ net.ipv4.ip_forward=1
 Apply the change: `sudo sysctl -p`
 3. **Configure WireGuard:** Create `/etc/wireguard/wg0.conf`. Use the private key generated for the home server and the public key generated for the bastion.
 
-Ini, TOML
-
 <br>
 
-```
+```toml
 [Interface]
 PrivateKey = <Home Server Private Key> # Get from /etc/wireguard/keys/home-server/privatekey on bastion
 Address = 10.99.0.2/32
@@ -143,11 +138,9 @@ net.ipv4.ip_forward=1
 Apply the change: `sudo sysctl -p`
 3. **Configure WireGuard:** Create `/etc/wireguard/wg0.conf`. Use the private key generated for the bastion and the public keys for the office and home servers, and the user devices.
 
-Ini, TOML
-
 <br>
 
-```
+```ini
 [Interface]
 PrivateKey = <Bastion Server Private Key> # Get from /etc/wireguard/keys/bastion/privatekey
 Address = 10.99.0.3/24 # Bastion needs to know about the whole VPN subnet
@@ -203,20 +196,16 @@ Now, generate the WireGuard configuration files for each user device. These can 
 
 1. **Create Directory:** Create a directory on the bastion to store the peer configurations:
 
-Bash
-
 <br>
 
-```
+```bash
 mkdir -p /etc/wireguard/peer-configs
 ```
 2. **Create Peer Configs:** For each user device, create a configuration file (e.g., `/etc/wireguard/peer-configs/user1-homepc.conf`). Replace the bracketed placeholders with the actual keys, IP addresses, and bastion endpoint information.
 
-Ini, TOML
-
 <br>
 
-```
+```ini
 # /etc/wireguard/peer-configs/user1-homepc.conf
 [Interface]
 PrivateKey = <user1-homepc Private Key> # Get from /etc/wireguard/keys/user1-homepc/privatekey on bastion
