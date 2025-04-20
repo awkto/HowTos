@@ -56,7 +56,7 @@ Apply the change: `sudo sysctl -p`
 
 <br>
 
-```toml
+```ini
 [Interface]
 PrivateKey = <Office Server Private Key> # Get from /etc/wireguard/keys/office-server/privatekey on bastion
 Address = 10.99.0.1/32
@@ -98,7 +98,7 @@ Apply the change: `sudo sysctl -p`
 
 <br>
 
-```toml
+```ini
 [Interface]
 PrivateKey = <Home Server Private Key> # Get from /etc/wireguard/keys/home-server/privatekey on bastion
 Address = 10.99.0.2/32
