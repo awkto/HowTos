@@ -71,9 +71,9 @@ echo [LICENSE STRING] | base64
 3. Create script **addlicense.sh** :
 
 ```
-TOKEN="[ADD TOKEN HERE]
+TOKEN="[ADD TOKEN HERE]"
 GITLAB_URL="https://gitlab.example.com"
-LICENSE_B64=[ENCODED LICENSE HERE]
+LICENSE_B64='[ENCODED LICENSE HERE]'
 
 curl --request POST "${GITLAB_URL}/api/v4/licenses" \
 --header "PRIVATE-TOKEN: $TOKEN" \
