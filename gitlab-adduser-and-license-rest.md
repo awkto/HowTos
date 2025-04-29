@@ -57,3 +57,28 @@ curl --request POST "${GITLAB_URL}/api/v4/users" \
 3. Replace all the variables with your specific user details
 4. Make script executable `chmod +x adduser.sh` 
 5. Execute the script `./adduser.sh`
+
+
+
+### Add license via Rest APi
+
+1. Log in to GitLab web as root and create a token
+2. Base64 encode the license
+
+```
+echo [LICENSE STRING] | base64
+```
+3. Create script **addlicense.sh** :
+
+```
+TOKEN="[ADD TOKEN HERE]
+GITLAB_URL="https://gitlab.example.com"
+LICENSE_B64=[ENCODED LICENSE HERE]
+
+curl --request POST "${GITLAB_URL}/api/v4/licenses" \
+--header "PRIVATE-TOKEN: $TOKEN" \
+--form "license=$LICENSE_64"
+```
+4. Replace all the variables with your specific user details
+5. Make script executable `chmod +x addlicense.sh` 
+6. Execute the script `./addlicense.sh`
