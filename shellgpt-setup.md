@@ -1,16 +1,26 @@
-5163610235294665## How to set up CLI tool for AI chat
+## Set Up Shell-GPT CLI tool for AI chat
 
 ### Shell GPT
+1. Install python `apt install python3`
+2. Install pipx `sudo apt install pipx`
+3. Ensure pipx executables are in your PATH `pipx ensurepath`
+4. Install shell-gpt with pipx `pipx install shell-gpt`
+5. Logout/Log back in
+6. Run shell gpt with `sgpt`
+7. Authenticate with an LLM backend using a token
 
-1. Install python `sudo apt install pipx`
-2. Ensure pipx executables are in your PATH `pipx ensurepath`
-3. Install shell-gpt with pipx `pipx install shell-gpt`
-4. Logout/Log back in
-5. Run shell gpt with `sgpt`
-6. Authenticate with an LLM backend using a token
+
+### Shell GPT on Windows
+1. Install python `winget install Python.Python.3.11`
+2. Install pipx `python -m pip install --user pipx`
+3. Ensure path is added `python -m pipx ensurepath`
+4. Install shell-gpt with pipx `pipx install shell-gpt`
+5. Logout/Log back in
+6. Run shell gpt with `sgpt`
+7. Authenticate with an LLM backend using a token
 
 
-### Using LiteLLM for Gemini
+### LiteLLM (Optional)
 Use this to inject litellm module into the pipx installation of shell-gpt
 ```
 pipx inject shell-gpt litellm
@@ -35,8 +45,7 @@ You can use a wrapper function to make this easier and not have to enter quotes
 Create this function in your `.bashrc`
 ```
 ask() {
-  local prompt="$*"
-  sgpt "$prompt"
+  sgpt "$*"
 }
 ```
 
