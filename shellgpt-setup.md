@@ -18,9 +18,8 @@
 3. Install pipx `python -m pip install --user pipx`
 4. Ensure path is added `python -m pipx ensurepath`
 5. Install shell-gpt with pipx `pipx install shell-gpt`
-6. Logout/Log back in
-7. Run shell gpt with `sgpt`
-8. Authenticate with an LLM backend using a token
+6. Run shell gpt with `sgpt`
+7. Authenticate with an LLM backend using a token
 
 
 ### LiteLLM (Optional)
@@ -59,6 +58,25 @@ Now just use **ask** binary your query without quotes
 ask what is a kernel panic"
 ``` 
 
+### Wrapper for Quotes (Windows)
+1. Launch powershell as Admin
+2. Run this to allow scripts
+   ```
+   Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+   ```
+3. Run this to open your Powershell default profile (equivalent to .bashrc)
+   ```
+   notepad $PROFILE
+   ```
+4. Create the file if it doesn't exist
+5. Enter this function inside and save,quit
+   ```
+   function Ask {
+       $query = $args -join ' '
+       sgpt $query
+   }
+   ```
+6. Use the function by calling `ask [question` 
 
 ### Use Ctrl+I hotkey
 
