@@ -46,3 +46,15 @@ Now just use **ask** binary your query without quotes
 ```
 ask what is a kernel panic"
 ``` 
+
+
+### Use Ctrl+I hotkey
+
+1. Install with
+```
+sgpt --install-integration
+```
+
+2. Relaunch shell
+3. To use it, type in a human readable command like "revert last 3 commits in git"
+4. Hit `Ctrl + l` hotkey to convert that line to a command
