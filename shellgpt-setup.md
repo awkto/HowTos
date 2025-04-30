@@ -23,3 +23,26 @@ pipx inject shell-gpt litellm
 2. ChatGPT / OpenAI
    - https://platform.openai.com/
 
+
+### Wrapper for Quotes
+sgpt requires your query to be wrapped in quotes every time. for example
+```
+sgpt "what is a kernel panic"
+```
+
+You can use a wrapper function to make this easier and not have to enter quotes
+
+Create this function in your `.bashrc`
+```
+ask() {
+  local prompt="$*"
+  sgpt "$prompt"
+}
+```
+
+Reload your session or run `bash`
+
+Now just use **ask** binary your query without quotes
+```
+ask what is a kernel panic"
+``` 
