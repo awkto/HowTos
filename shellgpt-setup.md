@@ -12,12 +12,15 @@
 
 ### Shell GPT on Windows
 1. Install python `winget install Python.Python.3.11`
-2. Install pipx `python -m pip install --user pipx`
-3. Ensure path is added `python -m pipx ensurepath`
-4. Install shell-gpt with pipx `pipx install shell-gpt`
-5. Logout/Log back in
-6. Run shell gpt with `sgpt`
-7. Authenticate with an LLM backend using a token
+2. Manually add paths if needed to your %PATH% env variable
+   - c:\users\madat\appdata\roaming\python\python311
+   - c:\users\madat\appdata\roaming\python\python311\scripts
+3. Install pipx `python -m pip install --user pipx`
+4. Ensure path is added `python -m pipx ensurepath`
+5. Install shell-gpt with pipx `pipx install shell-gpt`
+6. Logout/Log back in
+7. Run shell gpt with `sgpt`
+8. Authenticate with an LLM backend using a token
 
 
 ### LiteLLM (Optional)
