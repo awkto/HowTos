@@ -80,7 +80,7 @@ export DO_API_KEY="your_digitalocean_api_token"
 
 ### Step 5: Issue and Install the Certificate
 
-Now, we'll issue the certificate for your Proxmox hostname and instruct `acme.sh` to automatically install it to the Proxmox certificate locations and reload the `pveproxy` service. Replace `proxmox2.tux42.au` with your actual Proxmox hostname.
+Now, we'll issue the certificate for your Proxmox hostname and instruct `acme.sh` to automatically install it to the Proxmox certificate locations and reload the `pveproxy` service. Replace `proxmox.example.com` with your actual Proxmox hostname.
 
 **For Azure DNS:**
 
@@ -106,7 +106,7 @@ acme.sh --issue --dns dns_dgon -d proxmox.example.com --keylength ec-256 \
 
 * `--issue`: Tells `acme.sh` to request a new certificate.
 * `--dns dns_azure` or `--dns dns_dgon`: Specifies the DNS provider to use for verification. Swap `dns_azure` with `dns_dgon` if you are using DigitalOcean.
-* `-d proxmox2.tux42.au`: The domain name for which you are requesting the certificate. Ensure this matches your Proxmox hostname.
+* `-d proxmox.example.com`: The domain name for which you are requesting the certificate. Ensure this matches your Proxmox hostname.
 * `--keylength ec-256`: Requests an ECDSA key with a 256-bit curve, which is a modern and secure option. You can omit this for a standard RSA key.
 * `--install-cert`: Instructs `acme.sh` to install the issued certificate.
 * `--fullchain-file /etc/pve/local/pve-ssl.pem`: Specifies the destination path for the full certificate chain file.

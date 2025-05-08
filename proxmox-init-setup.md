@@ -105,6 +105,26 @@ server {
     listen 443 ssl http2;
     server_name proxmox.example.com;
 
+    ssl_certificate /etc/pve/local/pve-ssl.pem;
+    ssl_certificate_key /etc/pve/local/pve-ssl.key;
+
+    return 301 https://$host:8006$request_uri;
+}
+```
+
+Alternately, if you prefer to proxy instead of redirect, use this config 
+
+```nginx
+server {
+    listen 80;
+    server_name proxmox.example.com;
+    return 301 https://$host:8006$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name proxmox.example.com;
+
     # You'll likely want to configure SSL certificates here
     # For self-signed certificates (not recommended for production):
     ssl_certificate /etc/pve/local/pve-ssl.pem;
