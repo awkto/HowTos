@@ -1,5 +1,12 @@
 # Installing MSYS2 and Enabling GNU Tools in Windows
 
+While WSL2 exists these days giving a full linux dev environment, it can still be very useful to have direct access to GNU tools from Windows CMD terminal. For example being able to use **nano** to edit files directly in windows cmd terminal instead of calling **Notepad** and editing in a GUI. Or even just using **cat**, **grep**, **sed** etc against windows files.
+
+This can be done by installing MSYS2 in Windows and adding the relevant PATH in your system environment variables.
+
+<!-- ![image](https://github.com/user-attachments/assets/c3024cd0-36c5-43ee-96c8-f396f4309063) -->
+<img src="https://github.com/user-attachments/assets/c3024cd0-36c5-43ee-96c8-f396f4309063" alt="Description" width="600"/>
+
 ## Step 1: Install MSYS2
 
 1. **Download MSYS2**:
