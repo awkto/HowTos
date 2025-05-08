@@ -107,8 +107,8 @@ server {
 
     # You'll likely want to configure SSL certificates here
     # For self-signed certificates (not recommended for production):
-    ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
-    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
+    ssl_certificate /etc/pve/local/pve-ssl.pem;
+    ssl_certificate_key /etc/pve/local/pve-ssl.key;
 
     location / {
         proxy_pass https://localhost:8006;
