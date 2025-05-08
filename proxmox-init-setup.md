@@ -165,6 +165,34 @@ If the test is successful, reload the nginx service to apply the changes:
 sudo systemctl reload nginx
 ```
 
+**5. Create your Admins group and user**
+
+**5.1 Create a Linux user:** 
+
+SSH into your Proxmox host as root (or a user with sudo privileges) and use `adduser` to create a new system user (e.g., `adduser bobdylan`). When you add the user it will ask you to specify a password. Remember this password for later.
+
+**5.2 Create an 'Admins' group in Proxmox:**
+
+Log in to the Proxmox web interface as 'root', go to **Datacenter > Permissions > Groups**, and create a new group named 'Admins'.
+
+**5.3 Grant Administrator role to the 'Admins' group:**
+
+Navigate to **Datacenter > Permissions**, click **Add > Group Permission**, set the **Path** to `/`, select **Admins** as the **Group**, and choose the **Administrator** role.
+
+**5.4 Add the Linux user to Proxmox and the 'Admins' group:**
+
+Go to **Datacenter > Permissions > User**, add a new user with the same username as the Linux user created earlier, and then select **Admins** as the **Group** for this user.
+
+**5.5 Verify:**
+
+Log out of the Proxmox web interface as 'root' and log back in using the newly created administrative user to confirm the permissions are working correctly.
+
+The password for the web login will be what you set when you created the user at the OS level. If you need to reset it just SSH via root and run 'passwd [username]' to specify a new password.
+
+**6. Automate SSL Certificates with acme.sh**
+
+[Follow instructions here](./proxmox-certs-with-acme.sh.md)
+
 Now you should be able to access your Proxmox web interface by navigating to `http://proxmox.example.com` or `https://proxmox.example.com` in your web browser.
 
 This guide covers some of the fundamental initial setup steps for your Proxmox VE 8.2 installation. Depending on your specific needs, you might have other configurations to perform, such as setting up networking, storage, or user management. Let me know if you have any other questions or need further assistance!
