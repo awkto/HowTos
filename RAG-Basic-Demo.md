@@ -1,4 +1,4 @@
-## How to use RAG against Markdown files
+## Proof of Concept - USe RAG with Markdown files
 
 1. Deploy LLM on vLLM such as Llama 3.1 8B (the one I used here)
 2. Create a folder *howtos/* and place your markdown files inside it.
@@ -121,19 +121,23 @@ print("Exiting demo.")
 ``` 
 
 
+---
 
 ### Lessons Learned
 
-Some key takeaways about how Retrieval-Augmented Generation works and considerations for performance:
+Quick points about how RAG works and how to get the best results:
 
 #### RAG Augments LLMs with External Knowledge
-RAG systems improve LLM responses by first retrieving relevant information from a separate knowledge base (like your markdown files stored in a vector database) and then providing this retrieved context to the LLM alongside the user's query. The LLM then uses this specific context to generate a more informed and accurate answer.
+RAG helps LLMs by finding relevant info from your documents (like in a vector DB). It gives this specific info to the LLM along with your question. This makes the answer more accurate and based on your data.
+
 #### LLM Context Window is Crucial for Input
-The LLM has a maximum input size limit called a "context window." The combined total of the user query, the retrieved document chunks, and the system prompt must fit within this window. If the input exceeds the context window, the LLM will only process the beginning of the input, leading to incomplete or "cut off" answers.
+LLMs have a limit on how much text they can read at once – the "context window." Your question, the retrieved document chunks, and system instructions all must fit. If there's too much text, the LLM cuts off the input, leading to incomplete answers.
+
 #### Managing Context Size
-To prevent exceeding the LLM's context window and getting truncated answers, you can:
-    * Reduce the size of the document chunks (`chunk_size` and `chunk_overlap` in the text splitter). This makes each piece of retrieved information smaller.
-    * Reduce the number of retrieved chunks (`k` in the retriever's `search_kwargs`). This limits the total volume of context sent to the LLM.
-    * Use an LLM with a larger context window, if available and feasible, as it can handle more input tokens.
+To avoid cut-off answers and fit within the context window:
+  * Make document chunks smaller (`chunk_size`, `chunk_overlap`).
+  * Retrieve fewer chunks (`k` in `search_kwargs`).
+  * Use an LLM with a larger context window if possible.
+
 #### Query Specificity Impacts Retrieval
-The specificity of your user query significantly affects which documents (and therefore which chunks) the vector database retrieves. A more specific query is likely to retrieve highly targeted chunks, while a more general query might retrieve chunks related to a broader topic.
+How specific your question is affects what info the system finds. Specific questions get focused, relevant chunks. General questions might get broader info, which can make the LLM's answer less precise.
