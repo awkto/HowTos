@@ -119,3 +119,17 @@ while True:
 print("Exiting demo.")
 
 ``` 
+
+
+
+### Lessons Learned
+
+Some key takeaways about how Retrieval-Augmented Generation works and considerations for performance:
+
+* **RAG Augments LLMs with External Knowledge:** RAG systems improve LLM responses by first retrieving relevant information from a separate knowledge base (like your markdown files stored in a vector database) and then providing this retrieved context to the LLM alongside the user's query. The LLM then uses this specific context to generate a more informed and accurate answer.
+* **LLM Context Window is Crucial for Input:** The LLM has a maximum input size limit called a "context window." The combined total of the user query, the retrieved document chunks, and the system prompt must fit within this window. If the input exceeds the context window, the LLM will only process the beginning of the input, leading to incomplete or "cut off" answers.
+* **Managing Context Size:** To prevent exceeding the LLM's context window and getting truncated answers, you can:
+    * Reduce the size of the document chunks (`chunk_size` and `chunk_overlap` in the text splitter). This makes each piece of retrieved information smaller.
+    * Reduce the number of retrieved chunks (`k` in the retriever's `search_kwargs`). This limits the total volume of context sent to the LLM.
+    * Use an LLM with a larger context window, if available and feasible, as it can handle more input tokens.
+* **Query Specificity Impacts Retrieval:** The specificity of your user query significantly affects which documents (and therefore which chunks) the vector database retrieves. A more specific query is likely to retrieve highly targeted chunks, while a more general query might retrieve chunks related to a broader topic.
