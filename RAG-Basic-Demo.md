@@ -121,6 +121,21 @@ print("Exiting demo.")
 ``` 
 
 
+
+---
+### Stack
+
+* **Orchestration Framework:** `LangChain` (specifically the `RetrievalQA` chain) to manage the flow between components.
+* **Document Loading:** `UnstructuredMarkdownLoader` from `langchain-community`, which relies on the `unstructured` and `markdown` Python libraries to read and parse the markdown files.
+* **Document Splitting:** `RecursiveCharacterTextSplitter` from `langchain` to break down the documents into smaller, manageable chunks.
+* **Embedding Model:** A local Sentence Transformer model (`all-MiniLM-L6-v2`), accessed via `SentenceTransformerEmbeddings` from `langchain-community`, requiring the `sentence-transformers` Python library to convert text chunks into numerical vectors.
+* **Vector Database:** `ChromaDB`, integrated through `langchain-community.vectorstores.Chroma`, used to store the document chunks and their embeddings for efficient similarity search.
+* **Large Language Model (LLM):** Llama 3.1 8B, running locally and served by `vLLM`.
+* **LLM Interface:** `ChatOpenAI` from `langchain-openai`, configured to communicate with your vLLM instance using its OpenAI-compatible API.
+* **File Discovery:** Python's built-in `glob` module to find all markdown files in a specified directory.
+* **Environment Management (Recommended):** Python's built-in `venv` module for creating isolated project environments.
+
+
 ---
 
 ### Lessons Learned
