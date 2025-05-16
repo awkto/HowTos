@@ -2,16 +2,17 @@
 Retrieval-Augmented Generation (RAG) enhances Large Language Models (LLMs) by retrieving relevant information from external data sources to improve the accuracy and specificity of their generated responses.
 
 1. Deploy LLM on vLLM such as Llama 3.1 8B (the one I used here)
-2. Create a folder *howtos/* and place your markdown files inside it.
-3. Create Python Script **ragdemo.py** and configure it with your LLM endpoint details.
-4. Create Python Venv: `python -m venv demovenv`
-5. Activate Venv: `source demovenv/bin/activate`
-6. Install Dependencies:
+2. Install python3, and venv `sudo apt install python3 python-is-python3 python3.10-venv`
+3. Create a folder *howtos/* and place your markdown files inside it.
+4. Create Python Script **ragdemo.py** and configure it with your LLM endpoint details.
+5. Create Python Venv: `python -m venv demovenv`
+6. Activate Venv: `source demovenv/bin/activate`
+7. Install Dependencies:
    ```
    pip install langchain langchain-community langchain-chroma langchain-openai \
           unstructured sentence-transformers markdown
    ```
-7. Run Script: `python ragdemo.py`
+8. Run Script: `python ragdemo.py`
 
 
 ### Script
