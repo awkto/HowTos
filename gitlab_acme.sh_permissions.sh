@@ -8,6 +8,11 @@
   * **Operating System:** Debian/Ubuntu-like
   * You have root/sudo access to perform system-level configurations.
 
+### Scripts
+Two scripts are created for checking these various permissions.
+- Bash script   : [scripts/gitlab_acme_permissions_check.sh](scripts/gitlab_acme_permissions_check.sh)
+- Python script : [scripts/gitlab_acme_permissions_check.py](scripts/gitlab_acme_permissions_check.py)
+
 -----
 
 ## Part 1 User and Group Permissions
