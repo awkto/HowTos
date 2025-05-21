@@ -103,11 +103,11 @@ These commands ensure `acme.sh` can write to the `ssl` directory, and GitLab's N
       * **Important:** Close your terminal and open a new one after installation to ensure `acme.sh`'s environment variables are loaded.
 
 2.  **Initial deployment and certificate issuance (run only once for the first time):**
-    This command obtains the certificate and sets up the deployment hook.
+    This command obtains the certificate and sets up the deployment hook. 
 
     ```bash
     cd /home/user/.acme.sh/
-    ./acme.sh --issue -d gitlab.example.com --nginx \
+    ./acme.sh --issue -d gitlab.example.com --dns [dns_azure / dns_dgon] \
     --home "/home/user/.acme.sh" \
     --key-file /etc/gitlab/ssl/gitlab.example.com.key \
     --fullchain-file /etc/gitlab/ssl/gitlab.example.com.cer \
@@ -117,7 +117,7 @@ These commands ensure `acme.sh` can write to the `ssl` directory, and GitLab's N
 
       * **Rationale:**
           * `--issue`: Instructs `acme.sh` to obtain a new certificate.
-          * `--nginx`: Specifies the validation method (assuming Nginx is serving web content on ports 80/443).
+          * `----dns dns_azure`: Specifies the validation method using DNS instead of HTTP, and specify Azure (dns_azure) or DigitalOcean (dns_dgon).
           * `--key-file` and `--fullchain-file`: These tell `acme.sh` where to copy the newly issued certificate and key. Since `user` is in `ssladmins` and `/etc/gitlab/ssl` is `g+w`, `acme.sh` can write here.
           * `--reloadcmd`: This crucial part runs *after* a successful issue/renewal. It first secures the copied files' permissions and then tells GitLab to pick them up.
               * **Initial deployment requires `acme.sh` to write a *new* key file to `/etc/gitlab/ssl/`.** This command handles that.
