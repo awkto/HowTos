@@ -1,11 +1,11 @@
 ## How to get mp3s from Youtube playlist
 
-1. Get **yt-dlp** binary for your system   
+1. Get **yt-dlp** binary for your system
    https://github.com/yt-dlp/yt-dlp/releases/
 2. Install yt-dlp in the right folder
    Place it in your **/usr/local/bin**
    ```
-   sudo mv yt-dlp-linux /usr/loca/bin/yt-dlp
+   sudo mv yt-dlp_linux /usr/local/bin/yt-dlp
    ```
    Also make it executable with
    ```
@@ -17,7 +17,7 @@
    yt-dlp -x --audio-format mp3 --audio-quality 320K [playlist_URL]
    ```
    #Note : url syntax https://www.youtube.com/playlist?list=[LIST_ID]
-   
+
 4. Install rename tool
    ```
    sudo apt install rename
