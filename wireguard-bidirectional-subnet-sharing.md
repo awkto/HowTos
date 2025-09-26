@@ -13,6 +13,10 @@ We will be setting up WireGuard on several nodes:
 
 Communication between the home and office networks will be routed through the Bastion server.
 
+### Diagram
+<img width="1210" height="671" alt="image" src="images/wireguard-bastion.png" />
+
+
 ### Part 1 - Generate Keys and Configs
 
 The first step is to generate the necessary public and private keys for each WireGuard node and define the VPN's internal subnet.
