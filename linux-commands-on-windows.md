@@ -21,3 +21,7 @@ To set up MSYS2 in the Windows PATH so that PowerShell can directly call Linux b
 
 4. **Verify**: Open PowerShell and type a command like ls or bash to verify that MSYS2 binaries are accessible.
 
+5. **Install Additional Tools**: If you need additional linux commands not installed by default, try installing it with
+   ```
+   pacman -S [package-name]
+   ```
